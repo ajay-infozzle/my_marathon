@@ -1,6 +1,11 @@
-# marathon
+## marathon setup
 
-A new Flutter project.
+This project was built using the following versions:
+
+- **Flutter**: 3.22.3
+- **Dart**: 3.4.4
+
+
 
 ## Getting Started
 
