@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/get_instance.dart';
 import 'package:marathon/controllers/base/base_controller.dart';
-import 'package:marathon/controllers/home/apartment_details_controller/apartment_controller.dart';
 import 'package:marathon/controllers/mainController/main_controller.dart';
 import 'package:marathon/data/storage/app/app_holder.dart';
 import 'package:rxdart/rxdart.dart';

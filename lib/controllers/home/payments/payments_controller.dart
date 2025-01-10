@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:developer';
-import 'dart:io';
 import 'package:get/get.dart';
 import 'package:html_to_pdf_plus/html_to_pdf_plus.dart';
 import 'package:marathon/controllers/base/base_controller.dart';
@@ -76,7 +75,7 @@ class PaymentsController extends BaseController {
         }, content: (response) async {
           int r = 0;
           ledgerDetailsResponse = response;
-          Get.find<AppHolder>().ledgerData = jsonEncode(response) ?? "";
+          Get.find<AppHolder>().ledgerData = jsonEncode(response).isNotEmpty ?jsonEncode(response) : "";
           r = ledgerDetailsResponse?.data?.milestones?.length ?? 0;
           if (r > 4) {
             l = 4;

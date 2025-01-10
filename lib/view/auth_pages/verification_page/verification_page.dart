@@ -10,7 +10,6 @@ import 'package:pin_code_fields/pin_code_fields.dart';
 import '../../../data/tools/decoration/dimens.dart';
 import '../../../data/tools/decoration/res_colors.dart';
 import '../../../data/tools/decoration/style_res.dart';
-import '../../widgets/common_beta_version_email.dart';
 import '../../widgets/custom_textfield.dart';
 
 class VerificationPage extends StatelessWidget {

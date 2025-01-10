@@ -1,12 +1,8 @@
-import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_instance/get_instance.dart';
 import 'package:marathon/controllers/document/document_controller.dart';
 import 'package:marathon/data/tools/extensions/num_ext.dart';
-import 'package:marathon/view/main_page/documents/document_download/document_dowload_page.dart';
 import 'package:marathon/view/main_page/documents/widgets/document_tile.dart';
-import 'package:marathon/view/main_page/kyc/kyc_screen.dart';
 import 'package:marathon/view/widgets/custom_general_button.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../data/tools/decoration/dimens.dart';
@@ -15,7 +11,7 @@ import '../../../data/tools/decoration/style_res.dart';
 import '../../../data/tools/toast/custom_snackbar.dart';
 import '../../../domain/entities/documents/documents.dart';
 import '../../../domain/entities/documents/documents_receipts.dart';
-import '../../widgets/common_beta_version_email.dart';
+
 
 class DocumentsPage extends StatelessWidget {
   const DocumentsPage({super.key});
@@ -279,12 +275,12 @@ class GeneralData extends StatelessWidget {
   final List openedIndex;
   final int index;
   final bool isGeneral;
-  List<Documents>? documents;
-  List<String>? title;
-  Map? receipt;
-  DocumentController controller;
+  final List<Documents>? documents;
+  final List<String>? title;
+  final Map? receipt;
+  final DocumentController controller;
 
-  GeneralData({
+  const GeneralData({
     super.key,
     required this.openedIndex,
     required this.index,
@@ -314,7 +310,7 @@ class GeneralData extends StatelessWidget {
                   detail: "",
                   child: const Icon(Icons.file_download_outlined,
                       color: ColorRes.mainButtonColor))
-              : SizedBox(),
+              : const SizedBox(),
           ListView.builder(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),

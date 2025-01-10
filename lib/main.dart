@@ -11,7 +11,6 @@ import 'package:hive_flutter/adapters.dart';
 import 'package:marathon/data/services/analytics_service.dart';
 import 'package:marathon/data/tools/decoration/res_colors.dart';
 import 'package:marathon/data/tools/toast/custom_snackbar.dart';
-import 'package:marathon/view/main_page/kyc/kyc_screen.dart';
 import 'package:marathon/view/splash/splash_page.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'config/injection.dart';

@@ -1,11 +1,5 @@
 import 'package:get/get.dart';
 import 'package:marathon/controllers/base/base_controller.dart';
-import 'package:marathon/domain/entities/ledge/payment/payment_response.dart';
-import 'package:marathon/domain/entities/ledge/receipt.dart';
-import 'package:marathon/domain/use_cases/ledger_use_case/payment/payment_info_use_case.dart';
-
-import '../../../../data/server/api/api_const.dart';
-import '../../../../data/storage/app/app_holder.dart';
 import '../../../../domain/entities/aparments/apartment_details/milestone.dart';
 import '../../../mainController/main_controller.dart';
 

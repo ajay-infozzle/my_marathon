@@ -79,9 +79,7 @@ class PasswordVerificationController extends BaseController {
           customSnackBar(response?.message ?? "");
         }
       }, error: (error) {
-        customSnackBar(
-            "Your account has been deleted , Please contact support to register again." ??
-                "");
+        customSnackBar("Your account has been deleted , Please contact support to register again.");
       });
     })
       ..onDone(() async {

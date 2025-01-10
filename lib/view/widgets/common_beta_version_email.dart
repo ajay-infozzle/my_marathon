@@ -1,6 +1,7 @@
+import 'dart:developer';
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../data/tools/decoration/res_colors.dart';
 import '../../data/tools/decoration/style_res.dart';
@@ -18,11 +19,11 @@ Widget commonBetaVersionEmail() {
         text: 'customercare@marathonrealty.com',
         recognizer: TapGestureRecognizer()
           ..onTap = () async {
-            final email = 'mailto:customercare@marathonrealty.com';
-            if (await canLaunch(email)) {
-              await launch(email);
+            const email = 'mailto:customercare@marathonrealty.com';
+            if (await canLaunchUrl(Uri.parse(email))) {
+              await launchUrl(Uri.parse(email));
             } else {
-              print('Could not launch $email');
+              log('Could not launch $email');
             }
           },
         style: kSemiBoldTextStyle.copyWith(

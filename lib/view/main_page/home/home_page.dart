@@ -1,13 +1,10 @@
-import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:marathon/controllers/home/home_conroller.dart';
-import 'package:marathon/data/storage/app/app_holder.dart';
 import 'package:marathon/data/tools/decoration/res_colors.dart';
 import 'package:marathon/data/tools/extensions/num_ext.dart';
 import 'package:marathon/view/main_page/home/widgets/home_item.dart';
 import '../../../data/tools/decoration/style_res.dart';
-import '../../widgets/common_beta_version_email.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});

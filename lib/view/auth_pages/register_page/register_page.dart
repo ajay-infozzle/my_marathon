@@ -7,11 +7,9 @@ import 'package:marathon/data/tools/extensions/num_ext.dart';
 import 'package:marathon/view/auth_pages/terms_and_condition/terms_and_condition_page.dart';
 import 'package:marathon/view/widgets/custom_general_button.dart';
 import 'package:marathon/view/widgets/sheet_back_button.dart';
-import 'package:url_launcher/url_launcher.dart';
 import '../../../data/tools/decoration/dimens.dart';
 import '../../../data/tools/decoration/res_colors.dart';
 import '../../../data/tools/decoration/style_res.dart';
-import '../../widgets/common_beta_version_email.dart';
 import '../../widgets/custom_textfield.dart';
 import '../login_page.dart';
 
@@ -22,8 +20,8 @@ class RegisterScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final h = MediaQuery.of(context).size.height;
-    final w = MediaQuery.of(context).size.width;
+    // final h = MediaQuery.of(context).size.height;
+    // final w = MediaQuery.of(context).size.width;
     return GetBuilder<AuthController>(
         init: AuthController(Get.find()),
         builder: (controller) {
@@ -233,7 +231,7 @@ class RegisterScreen extends StatelessWidget {
                       side: const BorderSide(color: ColorRes.mainButtonColor),
                       activeColor: ColorRes.white,
                       checkColor: ColorRes.white,
-                      fillColor: MaterialStatePropertyAll(
+                      fillColor: WidgetStatePropertyAll(
                           controller.isCheck == true
                               ? ColorRes.mainButtonColor
                               : ColorRes.white),

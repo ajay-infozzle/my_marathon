@@ -45,7 +45,7 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     final h = MediaQuery.of(context).size.height;
-    final w = MediaQuery.of(context).size.width;
+    // final w = MediaQuery.of(context).size.width;
     log('AppAssets.icon.marathonLogo==========>>>>>${AppAssets.icon.marathonLogo}');
     return GetBuilder<MainController>(
         init: MainController(),
@@ -83,6 +83,7 @@ class _MainPageState extends State<MainPage> {
                     ),
               centerTitle: true,
               title: SvgPicture.asset(AppAssets.icon.marathonLogo,
+                  // ignore: deprecated_member_use
                   color: Colors.white, width: 171, height: 22),
               // Image(
               //   image: AssetImage(AppAssets.images.logoMarathon),
@@ -125,7 +126,7 @@ class _MainPageState extends State<MainPage> {
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Container(
+                                    SizedBox(
                                       height: Platform.isAndroid
                                           ? h * 0.035
                                           : h * 0.033,

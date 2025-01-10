@@ -5,12 +5,10 @@ import 'package:get/get.dart';
 import 'package:marathon/controllers/auth/authController.dart';
 import 'package:marathon/data/tools/extensions/num_ext.dart';
 import 'package:marathon/view/auth_pages/register_page/register_page.dart';
-import 'package:marathon/view/auth_pages/verification_page/password_verification_page.dart';
 import 'package:marathon/view/widgets/custom_general_button.dart';
 import '../../data/tools/decoration/dimens.dart';
 import '../../data/tools/decoration/res_colors.dart';
 import '../../data/tools/decoration/style_res.dart';
-import '../widgets/common_beta_version_email.dart';
 import '../widgets/sheet_back_button.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -23,8 +21,8 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final h = MediaQuery.of(context).size.height;
-    final w = MediaQuery.of(context).size.width;
+    // final h = MediaQuery.of(context).size.height;
+    // final w = MediaQuery.of(context).size.width;
     return GetBuilder<AuthController>(
         init: AuthController(Get.find()),
         builder: (controller) {

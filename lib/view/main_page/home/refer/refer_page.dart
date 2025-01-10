@@ -8,14 +8,13 @@ import 'package:marathon/view/widgets/custom_general_button.dart';
 import '../../../../data/tools/constants/app_assets.dart';
 import '../../../../data/tools/decoration/res_colors.dart';
 import '../../../../data/tools/decoration/style_res.dart';
-import '../../../widgets/common_beta_version_email.dart';
 
 class ReferPage extends StatelessWidget {
   const ReferPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final h = MediaQuery.of(context).size.height;
+    // final h = MediaQuery.of(context).size.height;
     final w = MediaQuery.of(context).size.width;
     return GetBuilder<ReferController>(
         init: ReferController(Get.find(),Get.find()),

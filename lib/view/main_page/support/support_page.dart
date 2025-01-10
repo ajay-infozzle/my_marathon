@@ -1,16 +1,17 @@
-import 'dart:developer';
+
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:get/get.dart';
 import 'package:marathon/controllers/support_controller/support_controller.dart';
 import 'package:marathon/data/tools/extensions/num_ext.dart';
-import 'package:marathon/view/main_page/support/support_detail/support_detail.dart';
 import 'package:marathon/view/widgets/custom_general_button.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../../data/tools/constants/app_assets.dart';
 import '../../../data/tools/decoration/dimens.dart';
 import '../../../data/tools/decoration/res_colors.dart';
 import '../../../data/tools/decoration/style_res.dart';
-import '../../widgets/common_beta_version_email.dart';
+
 
 class SupportPage extends StatelessWidget {
   const SupportPage({super.key});
@@ -57,8 +58,38 @@ class SupportPage extends StatelessWidget {
                                 color: ColorRes.mainTextColor),
                           ),
                         ),
-                        20.ph,
-                        Padding(
+                        // 20.ph,
+
+                        //~ added by ajay
+                        servicesDropdownSection(context, controller),
+                        10.ph,
+
+                        // DropdownTileWidget(
+                        //   onTap: () {
+                        //     controller.openTab(1);
+                        //   },
+                        //   title: 'General Service Request',
+                        //   showBottomLine: !controller.openIndex.contains(1),
+                        //   child: controller.openIndex.contains(1)
+                        //       ? const RotatedBox(
+                        //           quarterTurns: 1,
+                        //           child: Icon(
+                        //             Icons.arrow_forward_ios,
+                        //             color: ColorRes.black,
+                        //           ),
+                        //         )
+                        //       : const Icon(Icons.arrow_forward_ios),
+                        // ),
+                        controller.openIndex.contains(1) ? generalServiceForm(context, controller) : const SizedBox(),
+
+                        controller.openIndex.contains(2) ? complaintForm(context, controller) : const SizedBox(),
+
+                        controller.openIndex.contains(3) ? flatVisitServiceForm(context, controller) : const SizedBox(),
+
+                        controller.openIndex.contains(4) ? nameChangeServiceForm(context, controller) : const SizedBox(),
+                        //~ added by ajay
+
+                        /*Padding(
                           padding:
                               EdgeInsets.symmetric(horizontal: Dimens.padding),
                           child: const Text(
@@ -67,151 +98,10 @@ class SupportPage extends StatelessWidget {
                               style: kRegularThemeTextStyle),
                         ),
                         10.ph,
-                        Container(
-                          margin: const EdgeInsets.symmetric(horizontal: 16),
-                          alignment: Alignment.center,
-                          height: 35,
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            boxShadow: const [
-                              BoxShadow(
-                                color: ColorRes.greyD3,
-                                spreadRadius: 1,
-                                blurRadius: 0,
-                                offset: Offset(
-                                    0.5, 1.5), // changes position of shadow
-                              ),
-                            ],
-                            color: ColorRes.textFieldColor,
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: ClipRRect(
-                              borderRadius:
-                                  BorderRadius.circular(Dimens.buttonRadius),
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.only(right: 15, left: 15),
-                                child: Row(
-                                  children: [
-                                    Flexible(
-                                      child: TextFormField(
-                                        onTap: () {
-                                          FocusScope.of(context).unfocus();
-                                        },
-                                        style: kRegularThemeTextStyle,
-                                        controller:
-                                            controller.subjectController,
-                                        decoration: InputDecoration(
-                                            border: InputBorder.none,
-                                            hintText: "Subject*",
-                                            hintStyle:
-                                                kRegularTextStyle.copyWith(
-                                                    fontSize: 16,
-                                                    color: ColorRes.hintColor,
-                                                    fontWeight:
-                                                        FontWeight.w400)),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              )),
-                        ),
-                        10.ph,
-                        Container(
-                          margin: const EdgeInsets.symmetric(horizontal: 16),
-                          alignment: Alignment.topLeft,
-                          height: 115,
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                              boxShadow: const [
-                                BoxShadow(
-                                  color: ColorRes.greyD3,
-                                  spreadRadius: 1,
-                                  blurRadius: 0,
-                                  offset: Offset(0.5, 1.5),
-                                ),
-                              ],
-                              color: ColorRes.textFieldColor,
-                              borderRadius: BorderRadius.circular(10)),
-                          child: ClipRRect(
-                              borderRadius:
-                                  BorderRadius.circular(Dimens.buttonRadius),
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.only(right: 15, left: 15),
-                                child: Row(
-                                  children: [
-                                    Flexible(
-                                      child: TextFormField(
-                                        onTap: () {
-                                          FocusScope.of(context).unfocus();
-                                        },
-                                        style: kRegularThemeTextStyle,
-                                        maxLines: 100,
-                                        controller:
-                                            controller.messageController,
-                                        decoration: InputDecoration(
-                                            border: InputBorder.none,
-                                            hintText: "Type your message here*",
-                                            hintStyle:
-                                                kRegularTextStyle.copyWith(
-                                                    fontSize: 16,
-                                                    color: ColorRes.hintColor,
-                                                    fontWeight:
-                                                        FontWeight.w400)),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              )),
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            FocusScope.of(context).unfocus();
-                            controller.takeBook();
-                          },
-                          child: Container(
-                            margin: const EdgeInsets.symmetric(
-                                horizontal: 16, vertical: 10),
-                            height: 40,
-                            width: 170,
-                            decoration: BoxDecoration(
-                                color: ColorRes.greyF1,
-                                borderRadius: BorderRadius.circular(10)),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                const Icon(Icons.attach_file),
-                                Flexible(
-                                  child: Text(
-                                      overflow: TextOverflow.ellipsis,
-                                      controller.attached
-                                          ? controller.bookName
-                                          : "Add attachment",
-                                      style: kRegularTextStyle.copyWith(
-                                          color: ColorRes.grey)),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        10.ph,
-                        Padding(
-                          padding:
-                              EdgeInsets.symmetric(horizontal: Dimens.padding),
-                          child: CustomGeneralButton(
-                            onTab: () {
-                              controller.sentMessage();
-                            },
-                            title: "Submit",
-                            //verticalPadding: 5,
-                            // width: 158
-                          ),
-                        ),
+                        generalServiceForm(context, controller), **/
+                        
                         SizedBox(height: h * 0.01),
-                        Padding(
-                          padding:
-                              EdgeInsets.symmetric(horizontal: Dimens.padding),
+                        Padding(padding:EdgeInsets.symmetric(horizontal: Dimens.padding),
                           child: Text(
                             textAlign: TextAlign.start,
                             "Frequently Asked Questions.",
@@ -298,35 +188,10 @@ class SupportPage extends StatelessWidget {
                               )),
                         ),
 
-                        // ListView.builder(
-                        //   shrinkWrap: true,
-                        //   physics: const NeverScrollableScrollPhysics(),
-                        //   itemCount: controller.isSearch
-                        //       ? controller.searchFaq.length
-                        //       : controller.faqCategory.length ?? 0,
-                        //   itemBuilder: (context, index) {
-                        //     return Padding(
-                        //       padding: const EdgeInsets.symmetric(vertical: 2),
-                        //       child: TopicTitle(
-                        //         title: controller.isSearch
-                        //             ? "${controller.searchFaq[index].category}"
-                        //             : controller.faqCategory[index],
-                        //         onTap: () {
-                        //           controller.questionList(
-                        //               controller.faqCategory[index]);
-                        //           // Get.to(() => SupportDetailPage(), arguments: {
-                        //           //   "name": controller.faqCategory[index],
-                        //           // });
-                        //         },
-                        //       ),
-                        //     );
-                        //   },
-                        // ),
-
                         ListView.builder(
                             physics: const NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
-                            itemCount: controller.faqData.length ?? 0,
+                            itemCount: controller.faqData.length,
                             itemBuilder: (context, index) {
                               return Column(
                                 children: [
@@ -348,9 +213,7 @@ class SupportPage extends StatelessWidget {
                                       onTap: () {
                                         controller.openTab(index);
                                       },
-                                      title: controller.faqData[index].question
-                                              .toString() ??
-                                          "",
+                                      title: controller.faqData[index].question.toString(),
                                       child:
                                           controller.openIndex.contains(index)
                                               ? const RotatedBox(
@@ -373,9 +236,7 @@ class SupportPage extends StatelessWidget {
                                       open: () {
                                         controller.openTab(index);
                                       },
-                                      content: controller.faqData[index].answer
-                                              .toString() ??
-                                          "",
+                                      content: controller.faqData[index].answer.toString(),
                                     ),
                                 ],
                               );
@@ -389,6 +250,693 @@ class SupportPage extends StatelessWidget {
           );
         });
   }
+
+  servicesDropdownSection(BuildContext context, SupportController controller){
+    return Container(
+      margin: const EdgeInsets.all(15),
+      alignment: Alignment.center,
+      width: double.infinity,
+      decoration: BoxDecoration(
+        boxShadow: const [
+          BoxShadow(
+            color: ColorRes.greyD3,
+            spreadRadius: 1,
+            blurRadius: 0,
+            offset: Offset(0.5, 1.5),
+          ),
+        ],
+        color: ColorRes.textFieldColor,
+        borderRadius: BorderRadius.circular(10)
+      ),
+      child: ClipRRect(
+          borderRadius:BorderRadius.circular(Dimens.buttonRadius),
+          child: Padding(padding:const EdgeInsets.only(right: 15, left: 15),
+            child: Container(
+              height: MediaQuery.of(context).size.height * 0.055,
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              decoration: BoxDecoration(borderRadius: BorderRadius.circular(5)),
+              child: DropdownButtonHideUnderline(
+                child: DropdownButton(
+                  isExpanded: true,
+                  value: controller.selectService!.isEmpty
+                      ? null
+                      : controller.selectService,
+                  style: kRegularThemeTextStyle.copyWith(
+                    color: Colors.black,
+                    fontWeight: FontWeight.w600,
+                  ),
+                  icon: const Icon(Icons.arrow_drop_down_sharp),
+                  items: controller.services.map((String value) {
+                    return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(
+                          value,
+                          style: const TextStyle(
+                              fontWeight: FontWeight.normal,
+                              color: Colors.black),
+                        ));
+                  }).toList(),
+                  hint: Text(
+                    'Select Service',
+                    style: kRegularThemeTextStyle.copyWith(
+                        color: ColorRes.hintColor,
+                        fontWeight: FontWeight.w600
+                    ),
+                  ),
+                  onChanged: (value) {
+                    controller.selectService = value!;
+                    int selectedServices = controller.services.indexOf(value);
+                    controller.openTab(selectedServices+1);
+
+                    controller.update();
+                  },
+                ),
+              ),
+            ),
+          )),
+    );
+  }
+  
+  generalServiceForm(BuildContext context, SupportController controller, {bool showBottomLine = true}) {
+    return Container(
+      decoration: BoxDecoration(
+        border: Border(
+          bottom: BorderSide(
+            color: showBottomLine ? ColorRes.greyColor : Colors.transparent, 
+            width: showBottomLine ? 2.0 : 0, 
+          ),
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            margin: const EdgeInsets.symmetric(horizontal: 16),
+            alignment: Alignment.center,
+            height: 35,
+            width: double.infinity,
+            decoration: BoxDecoration(
+              boxShadow: const [
+                BoxShadow(
+                  color: ColorRes.greyD3,
+                  spreadRadius: 1,
+                  blurRadius: 0,
+                  offset: Offset(0.5, 1.5), 
+                ),
+              ],
+              color: ColorRes.textFieldColor,
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: ClipRRect(
+              borderRadius:BorderRadius.circular(Dimens.buttonRadius),
+              child: Padding(padding:const EdgeInsets.only(right: 15, left: 15),
+                child: Row(
+                  children: [
+                    Flexible(
+                      child: TextFormField(
+                        onTap: () {
+                          FocusScope.of(context).unfocus();
+                        },
+                        style: kRegularThemeTextStyle,
+                        controller:controller.subjectController,
+                        decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintText: "Subject*",
+                            hintStyle:kRegularTextStyle.copyWith(
+                              fontSize: 16,
+                              color: ColorRes.hintColor,
+                              fontWeight:FontWeight.w400
+                            )
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            ),
+          ),
+
+          10.ph,
+          Container(
+            margin: const EdgeInsets.symmetric(horizontal: 16),
+            alignment: Alignment.topLeft,
+            height: 115,
+            width: double.infinity,
+            decoration: BoxDecoration(
+                boxShadow: const [
+                  BoxShadow(
+                    color: ColorRes.greyD3,
+                    spreadRadius: 1,
+                    blurRadius: 0,
+                    offset: Offset(0.5, 1.5),
+                  ),
+                ],
+                color: ColorRes.textFieldColor,
+                borderRadius: BorderRadius.circular(10)),
+            child: ClipRRect(
+                borderRadius: BorderRadius.circular(Dimens.buttonRadius),
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 15, left: 15),
+                  child: Row(
+                    children: [
+                      Flexible(
+                        child: TextFormField(
+                          onTap: () {
+                            FocusScope.of(context).unfocus();
+                          },
+                          style: kRegularThemeTextStyle,
+                          maxLines: 100,
+                          controller: controller.messageController,
+                          decoration: InputDecoration(
+                              border: InputBorder.none,
+                              hintText: "Type your message here*",
+                              hintStyle: kRegularTextStyle.copyWith(
+                                fontSize: 16,
+                                color: ColorRes.hintColor,
+                                fontWeight: FontWeight.w400
+                              )
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                )),
+          ),
+
+          GestureDetector(
+            onTap: () {
+              FocusScope.of(context).unfocus();
+              controller.takeBook();
+            },
+            child: Container(
+              margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+              height: 40,
+              width: 170,
+              decoration: BoxDecoration(
+                  color: ColorRes.greyF1,
+                  borderRadius: BorderRadius.circular(10)
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  const Icon(Icons.attach_file),
+                  Flexible(
+                    child: Text(
+                        overflow: TextOverflow.ellipsis,
+                        controller.attached ? controller.bookName : "Add attachment",
+                        style: kRegularTextStyle.copyWith(color: ColorRes.grey)
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+
+          10.ph,
+          Padding(
+            padding:EdgeInsets.symmetric(horizontal: Dimens.padding),
+            child: CustomGeneralButton(
+              onTab: () {
+                controller.sentMessage();
+              },
+              title: "Submit",
+              //verticalPadding: 5,
+              // width: 158
+            ),
+          ),
+      
+          20.ph,
+        ],
+      ),
+    );
+  }
+  
+  complaintForm(BuildContext context, SupportController controller, {bool showBottomLine = true}) {
+    return Container(
+      decoration: BoxDecoration(
+        border: Border(
+          bottom: BorderSide(
+            color: showBottomLine ? ColorRes.greyColor : Colors.transparent, 
+            width: showBottomLine ? 2.0 : 0, 
+          ),
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            margin: const EdgeInsets.symmetric(horizontal: 16),
+            alignment: Alignment.center,
+            height: 35,
+            width: double.infinity,
+            decoration: BoxDecoration(
+              boxShadow: const [
+                BoxShadow(
+                  color: ColorRes.greyD3,
+                  spreadRadius: 1,
+                  blurRadius: 0,
+                  offset: Offset(0.5, 1.5), 
+                ),
+              ],
+              color: ColorRes.textFieldColor,
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: ClipRRect(
+              borderRadius:BorderRadius.circular(Dimens.buttonRadius),
+              child: Padding(padding:const EdgeInsets.only(right: 15, left: 15),
+                child: Row(
+                  children: [
+                    Flexible(
+                      child: TextFormField(
+                        onTap: () {
+                          FocusScope.of(context).unfocus();
+                        },
+                        style: kRegularThemeTextStyle,
+                        controller:controller.complainSubjectController,
+                        decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintText: "Subject*",
+                            hintStyle:kRegularTextStyle.copyWith(
+                              fontSize: 16,
+                              color: ColorRes.hintColor,
+                              fontWeight:FontWeight.w400
+                            )
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            ),
+          ),
+
+          10.ph,
+          Container(
+            margin: const EdgeInsets.symmetric(horizontal: 16),
+            alignment: Alignment.topLeft,
+            height: 115,
+            width: double.infinity,
+            decoration: BoxDecoration(
+                boxShadow: const [
+                  BoxShadow(
+                    color: ColorRes.greyD3,
+                    spreadRadius: 1,
+                    blurRadius: 0,
+                    offset: Offset(0.5, 1.5),
+                  ),
+                ],
+                color: ColorRes.textFieldColor,
+                borderRadius: BorderRadius.circular(10)),
+            child: ClipRRect(
+                borderRadius: BorderRadius.circular(Dimens.buttonRadius),
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 15, left: 15),
+                  child: Row(
+                    children: [
+                      Flexible(
+                        child: TextFormField(
+                          onTap: () {
+                            FocusScope.of(context).unfocus();
+                          },
+                          style: kRegularThemeTextStyle,
+                          maxLines: 100,
+                          controller: controller.complainMessageController,
+                          decoration: InputDecoration(
+                              border: InputBorder.none,
+                              hintText: "Please share details of your complaint*",
+                              hintStyle: kRegularTextStyle.copyWith(
+                                fontSize: 16,
+                                color: ColorRes.hintColor,
+                                fontWeight: FontWeight.w400
+                              )
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                )),
+          ),
+
+          GestureDetector(
+            onTap: () {
+              FocusScope.of(context).unfocus();
+              controller.takeComplainAttachment();
+            },
+            child: Container(
+              margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+              height: 40,
+              width: 170,
+              decoration: BoxDecoration(
+                  color: ColorRes.greyF1,
+                  borderRadius: BorderRadius.circular(10)
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  const Icon(Icons.attach_file),
+                  Flexible(
+                    child: Text(
+                        overflow: TextOverflow.ellipsis,
+                        controller.complainAttached ? controller.complainName : "Add attachment",
+                        style: kRegularTextStyle.copyWith(color: ColorRes.grey)
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+
+          10.ph,
+          Padding(
+            padding:EdgeInsets.symmetric(horizontal: Dimens.padding),
+            child: CustomGeneralButton(
+              onTab: () {
+                controller.sendComplainForm();
+              },
+              title: "Submit",
+            ),
+          ),
+      
+          20.ph,
+        ],
+      ),
+    );
+  }
+
+  flatVisitServiceForm(BuildContext context, SupportController controller, {bool showBottomLine = true}) {
+    return Container(
+      decoration: BoxDecoration(
+        border: Border(
+          bottom: BorderSide(
+            color: showBottomLine ? ColorRes.greyColor : Colors.transparent, 
+            width: showBottomLine ? 2.0 : 0, 
+          ),
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            margin: const EdgeInsets.symmetric(horizontal: 16),
+            alignment: Alignment.center,
+            height: MediaQuery.of(context).size.height * 0.055,
+            width: double.infinity,
+            decoration: BoxDecoration(
+              boxShadow: const [
+                BoxShadow(
+                  color: ColorRes.greyD3,
+                  spreadRadius: 1,
+                  blurRadius: 0,
+                  offset: Offset(0.5, 1.5), 
+                ),
+              ],
+              color: ColorRes.textFieldColor,
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: ClipRRect(
+              borderRadius:BorderRadius.circular(Dimens.buttonRadius),
+              child: Padding(padding:const EdgeInsets.only(right: 15, left: 15),
+                child: Row(
+                  children: [
+                    Flexible(
+                      child: TextFormField(
+                        onTap: () {
+                          controller.getDateFromUser(context);
+                        },
+                        style: kRegularThemeTextStyle,
+                        controller:controller.visitDateCont,
+                        canRequestFocus: false,
+                        showCursor: false,
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          hintText: "Date of visit*",
+                          hintStyle:kRegularTextStyle.copyWith(
+                            fontSize: 16,
+                            color: ColorRes.hintColor,
+                            fontWeight:FontWeight.w400
+                          ),
+                          suffixIcon: const Icon(
+                            Icons.calendar_today_outlined,
+                            color: ColorRes.grey,
+                          )
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            ),
+          ),
+          10.ph,
+
+          Container(
+            margin: const EdgeInsets.symmetric(horizontal: 16),
+            alignment: Alignment.center,
+            height: MediaQuery.of(context).size.height * 0.055,
+            width: double.infinity,
+            decoration: BoxDecoration(
+              boxShadow: const [
+                BoxShadow(
+                  color: ColorRes.greyD3,
+                  spreadRadius: 1,
+                  blurRadius: 0,
+                  offset: Offset(0.5, 1.5), 
+                ),
+              ],
+              color: ColorRes.textFieldColor,
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: ClipRRect(
+              borderRadius:BorderRadius.circular(Dimens.buttonRadius),
+              child: Padding(padding:const EdgeInsets.only(right: 15, left: 15),
+                child: Row(
+                  children: [
+                    Flexible(
+                      child: TextFormField(
+                        onTap: () {
+                          controller.getTimeFromUser(context);
+                        },
+                        style: kRegularThemeTextStyle,
+                        controller:controller.visitTimeCont,
+                        canRequestFocus: false,
+                        showCursor: false,
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          hintText: "Time of visit*",
+                          hintStyle:kRegularTextStyle.copyWith(
+                            fontSize: 16,
+                            color: ColorRes.hintColor,
+                            fontWeight:FontWeight.w400
+                          ),
+                          suffixIcon: const Icon(
+                            Icons.watch_later_outlined,
+                            color: ColorRes.grey,
+                          )
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            ),
+          ),
+          10.ph,
+
+          Container(
+            margin: const EdgeInsets.symmetric(horizontal: 16),
+            alignment: Alignment.topLeft,
+            height: 115,
+            width: double.infinity,
+            decoration: BoxDecoration(
+                boxShadow: const [
+                  BoxShadow(
+                    color: ColorRes.greyD3,
+                    spreadRadius: 1,
+                    blurRadius: 0,
+                    offset: Offset(0.5, 1.5),
+                  ),
+                ],
+                color: ColorRes.textFieldColor,
+                borderRadius: BorderRadius.circular(10)),
+            child: ClipRRect(
+                borderRadius: BorderRadius.circular(Dimens.buttonRadius),
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 15, left: 15),
+                  child: Row(
+                    children: [
+                      Flexible(
+                        child: TextFormField(
+                          onTap: () {
+                            FocusScope.of(context).unfocus();
+                          },
+                          style: kRegularThemeTextStyle,
+                          maxLines: 100,
+                          controller: controller.visitPurposeCont,
+                          decoration: InputDecoration(
+                              border: InputBorder.none,
+                              hintText: "Purpose of visit*",
+                              hintStyle: kRegularTextStyle.copyWith(
+                                fontSize: 16,
+                                color: ColorRes.hintColor,
+                                fontWeight: FontWeight.w400
+                              )
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                )),
+          ),
+          10.ph,
+
+          Container(
+            margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+            // padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+            width: Get.width,
+            // decoration: BoxDecoration(
+            //     color: ColorRes.mainButtonColor.withOpacity(.025),
+            //     borderRadius: BorderRadius.circular(10)
+            // ),
+            child: const Text(
+              "Please note that visits are subject to prior authorisation and are permitted at the builder's discretion. Please give us at least 72 hours prior notice. Visits may not be allowed in case there are safety concerns in visiting the under-construction property site.",
+              style: TextStyle(
+                color: ColorRes.greyTextColor,
+                fontSize: 12
+              ),
+              textAlign: TextAlign.start,
+            ),
+          ),
+
+          10.ph,
+          Padding(
+            padding:EdgeInsets.symmetric(horizontal: Dimens.padding),
+            child: CustomGeneralButton(
+              onTab: () {
+                controller.sendFlatVisitRequestForm();
+              },
+              title: "Submit",
+            ),
+          ),
+      
+          20.ph,
+        ],
+      ),
+    );
+  }
+  
+  nameChangeServiceForm(BuildContext context, SupportController controller, {bool showBottomLine = true}) {
+    return Container(
+      decoration: BoxDecoration(
+        border: Border(
+          bottom: BorderSide(
+            color: showBottomLine ? ColorRes.greyColor : Colors.transparent, 
+            width: showBottomLine ? 2.0 : 0, 
+          ),
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+            width: Get.width,
+            child: RichText(
+              text: TextSpan(
+                children: [
+                  TextSpan(
+                    text: "Please download this form ",
+                    style: const TextStyle(
+                      color: Colors.blue,
+                      decoration: TextDecoration.underline,
+                    ),
+                    recognizer: TapGestureRecognizer()
+                      ..onTap = () {
+                        launchUrl(Uri.parse("https://marathon.in"));
+                      },
+                  ),
+                  const TextSpan(
+                    text:
+                        " and fill it up and upload the form to the field mentioned below or share it with your Relationship Manager",
+                    style: TextStyle(
+                      color: ColorRes.mainTextColor,
+                      fontSize: 14,
+                    ),
+                  ),
+                ]
+              ),
+            ),
+          ),
+          
+          10.ph,
+          Container(
+            margin: const EdgeInsets.symmetric(horizontal: 16),
+            alignment: Alignment.center,
+            height: MediaQuery.of(context).size.height * 0.055,
+            width: double.infinity,
+            decoration: BoxDecoration(
+              boxShadow: const [
+                BoxShadow(
+                  color: ColorRes.greyD3,
+                  spreadRadius: 1,
+                  blurRadius: 0,
+                  offset: Offset(0.5, 1.5), 
+                ),
+              ],
+              color: ColorRes.textFieldColor,
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: ClipRRect(
+              borderRadius:BorderRadius.circular(Dimens.buttonRadius),
+              child: Padding(padding:const EdgeInsets.only(right: 15, left: 15),
+                child: Row(
+                  children: [
+                    Flexible(
+                      child: TextFormField(
+                        onTap: () {
+                          controller.takeNameChangeFormAttachment();
+                        },
+                        style: kRegularThemeTextStyle,
+                        controller:controller.nameChangeCont,
+                        canRequestFocus: false,
+                        showCursor: false,
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          hintText: "Upload Request Form",
+                          hintStyle:kRegularTextStyle.copyWith(
+                            fontSize: 16,
+                            color: ColorRes.hintColor,
+                            fontWeight:FontWeight.w400
+                          ),
+                          suffixIcon: const Icon(
+                            Icons.attachment_rounded,
+                            color: ColorRes.grey,
+                          )
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            ),
+          ),
+          20.ph,
+
+          Padding(
+            padding:EdgeInsets.symmetric(horizontal: Dimens.padding),
+            child: CustomGeneralButton(
+              onTab: () {
+                controller.sendNameChangeForm();
+              },
+              title: "Submit",
+            ),
+          ),
+      
+          20.ph,
+        ],
+      ),
+    );
+  }
+
 }
 
 class TopicTitle extends StatelessWidget {

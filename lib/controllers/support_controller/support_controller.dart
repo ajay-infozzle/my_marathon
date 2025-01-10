@@ -1,10 +1,12 @@
-import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
+import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/get_instance.dart';
+import 'package:intl/intl.dart';
 import 'package:marathon/controllers/base/base_controller.dart';
 import 'package:marathon/controllers/mainController/main_controller.dart';
 import 'package:marathon/data/services/analytics_service.dart';
@@ -27,6 +29,24 @@ class SupportController extends BaseController {
   TextEditingController messageController = TextEditingController();
   TextEditingController searchController = TextEditingController();
 
+  TextEditingController complainSubjectController = TextEditingController();
+  TextEditingController complainMessageController = TextEditingController();
+
+  TextEditingController visitDateCont = TextEditingController();
+  TextEditingController visitTimeCont = TextEditingController();
+  TextEditingController visitPurposeCont = TextEditingController();
+
+  TextEditingController nameChangeCont = TextEditingController();
+
+
+  String? selectService = "";
+  List<String> services = [
+    "General Service Request",
+    "Complaint",
+    "Flat Visit Request",
+    "Name Change Request"
+  ];
+
   GetFaqDataUseCase getFaqDataUseCase;
   FaqDataResponse? faqDataResponse;
   List<FaqData> searchFaq = [];
@@ -36,11 +56,25 @@ class SupportController extends BaseController {
   List openIndex = [];
 
   void openTab(index) {
-    if (openIndex.contains(index)) {
-      openIndex.remove(index);
-    } else {
-      openIndex.add(index);
+    file = null ;
+    switch (index) {
+      case 1:
+        attached = false ;
+        break;
+      case 2:
+        complainAttached = false ;
+        break;
+      default:
     }
+    
+    // if (openIndex.contains(index)) {
+    //   openIndex.remove(index);
+    // } else {
+    //   openIndex.add(index);
+    // }
+
+    openIndex.clear();
+    openIndex.add(index);
     update();
   }
 
@@ -55,38 +89,120 @@ class SupportController extends BaseController {
     this.getFaqDataUseCase,
   );
 
-  TextEditingController documentName = TextEditingController();
+  // TextEditingController documentName = TextEditingController();
   String bookName = "";
 
-  List<String> list = [];
+  // List<String> list = [];
   File? file;
   bool attached = false;
 
+  String complainName = "";
+  bool complainAttached = false;
+  bool nameChaneFormAttached = false;
+
   void takeBook() async {
+    final filePickerResult = await filePicker();
+    if(filePickerResult == null){
+      return ;
+    }
+
+    bookName = filePickerResult.names.first!;
+    // documentName.text = bookName;
+    if (file != null) {
+      attached = true;
+    }
+    if (kDebugMode) {
+      print(bookName);
+    }
+    update();
+  }
+
+  void takeComplainAttachment() async {
+    final filePickerResult = await filePicker();
+    if(filePickerResult == null){
+      return ;
+    }
+
+    complainName = filePickerResult.names.first!;
+    if (file != null) {
+      complainAttached = true;
+    }
+    if (kDebugMode) {
+      print(complainName);
+    }
+    update();
+  }
+
+  void takeNameChangeFormAttachment() async {
+    final filePickerResult = await filePicker();
+    if(filePickerResult == null){
+      return ;
+    }
+
+    nameChangeCont.text = filePickerResult.names.first!;
+    if (file != null) {
+      nameChaneFormAttached = true;
+    }
+    if (kDebugMode) {
+      print(nameChangeCont.text);
+    }
+    update();
+  }
+
+  Future<FilePickerResult?> filePicker() async{
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
       allowedExtensions: ['pdf', 'doc', 'jpg', 'pdf', 'png', 'svg'],
     );
     file = File(result?.paths.first ?? "");
     int fileSize = file!.lengthSync();
-    print("FileSize===>>>>$fileSize");
+    if (kDebugMode) {
+      print("FileSize===>>>>$fileSize");
+    }
     if (fileSize > 8 * 1024 * 1024) {
       customSnackBar("File size should not exceed 8 MB");
-      return;
+      return null;
     }
-    bookName = result!.names.first!;
-    documentName.text = bookName;
-    if (file != null) {
-      attached = true;
-    }
-    print(bookName);
-    update();
+
+    return result;
   }
 
   @override
   void onInit() {
     getFaqData();
+    selectService = services[0];
+    openTab(1);
     super.onInit();
+  }
+
+
+  void getDateFromUser(BuildContext context) async{
+    DateTime? pickedDate = await showDatePicker(
+      context: context, 
+      initialDate: DateTime.now(), 
+      firstDate: DateTime(2020), 
+      lastDate: DateTime(2050)
+    );
+
+    if(pickedDate != null){
+      visitDateCont.text = DateFormat.yMd().format(pickedDate);
+    }
+  }
+
+  
+  void getTimeFromUser(BuildContext context) async{
+    var timePicker = await showTimePicker(
+      context: context, 
+      initialEntryMode: TimePickerEntryMode.input,
+      initialTime: TimeOfDay(hour: DateTime.now().hour, minute: DateTime.now().minute),
+    );
+
+    late String formattedTime ;
+    if(timePicker!=null){
+      // ignore: use_build_context_synchronously
+      formattedTime = timePicker.format(context);
+      visitTimeCont.text = formattedTime;
+    }
   }
 
   void sentMessage() {
@@ -102,7 +218,7 @@ class SupportController extends BaseController {
       customSnackBar("Please attach file");
       return;
     }
-    String email = Get.find<AppHolder>().email ?? Get.find<AppHolder>().number;
+    String email = Get.find<AppHolder>().email.isNotEmpty ? Get.find<AppHolder>().email : Get.find<AppHolder>().number;
     Map<String, dynamic> request = Get.find<AppHolder>().custId != 0
         ?
           {
@@ -165,15 +281,222 @@ class SupportController extends BaseController {
       ..addTo(subscribe);
   }
 
+  void sendComplainForm() async{
+    if (complainSubjectController.text.isEmpty) {
+      customSnackBar("Please enter Subject");
+      return;
+    }
+    if (complainMessageController.text.isEmpty) {
+      customSnackBar("Please enter Message");
+      return;
+    }
+    if (complainAttached == false || file == null) {
+      customSnackBar("Please attach a valid file");
+      return;
+    }
+    String email = Get.find<AppHolder>().email.isNotEmpty ? Get.find<AppHolder>().email : Get.find<AppHolder>().number;
+    Map<String, dynamic> request = Get.find<AppHolder>().custId != 0
+        ?
+          {
+            "message": complainMessageController.text,
+            "subject": complainSubjectController.text,
+            "email": email,
+            "cust_id": Get.find<AppHolder>().custId,
+            "apartment_id": Get.find<MainController>().apartmentId,
+            "document_file": file
+          }
+        : {
+            "message": complainMessageController.text,
+            "subject": complainSubjectController.text,
+            "email": email,
+            "document_file": file
+          };
+
+    Map<String, dynamic> params = {
+      "apikey": Api.apiKey,
+      "action": "complaint_post" //~ to change
+    };
+
+    AnalyticsService.instance.onContactFormSubmission();
+    log('file==========>>>>>$file');
+    log('requestFile==========>>>>>$request');
+
+
+    try {
+      isLoading = true;
+      update();
+
+      Dio dio = Dio();
+      var response = await dio.post(
+        Api.complainFormApi,
+        data: FormData.fromMap(request), //~ FormData for file uploads
+        queryParameters: params
+      );
+      log("('complain form response=======>>>: ${response.data}'");
+      
+      if(response.statusCode == 200){
+        customSnackBar(response.data?['message'].toString() ?? 'Form submitted successfully');
+        complainMessageController.clear();
+        complainSubjectController.clear();
+      }else {
+        customSnackBar(response.data?['message'].toString() ?? 'Submission failed');
+      }
+    } 
+    on DioException catch (e) {
+      log('Failed to upload complaint form =======>>>: $e');
+      customSnackBar("Failed to upload complaint form. Please try again.");
+    } catch (e) {
+      log('Unexpected error to upload complaint form: $e');
+      customSnackBar("Please try again.");
+    } finally {
+      isLoading = false;
+      update();
+    }
+  }
+
+  void sendFlatVisitRequestForm() async{
+    if (visitDateCont.text.isEmpty) {
+      customSnackBar("Please choose visit date");
+      return;
+    }
+    if (visitTimeCont.text.isEmpty) {
+      customSnackBar("Please choose visit time");
+      return;
+    }
+    if (visitPurposeCont.text.isEmpty) {
+      customSnackBar("Please enter purpose of visit");
+      return;
+    }
+    String email = Get.find<AppHolder>().email.isNotEmpty ? Get.find<AppHolder>().email : Get.find<AppHolder>().number;
+    Map<String, dynamic> request = Get.find<AppHolder>().custId != 0
+        ?
+          {
+            "date": visitDateCont.text,
+            "time": visitTimeCont.text,
+            "message": visitPurposeCont.text,
+            "email": email,
+            "cust_id": Get.find<AppHolder>().custId,
+            "apartment_id": Get.find<MainController>().apartmentId,
+          }
+        : {
+            "date": visitDateCont.text,
+            "time": visitTimeCont.text,
+            "message": visitPurposeCont.text,
+            "email": email,
+          };
+
+    Map<String, dynamic> params = {
+      "apikey": Api.apiKey,
+      "action": "flat_visit_post" //~ to change
+    };
+
+    AnalyticsService.instance.onContactFormSubmission();
+    log('file==========>>>>>$file');
+    log('requestFile==========>>>>>$request');
+
+
+    try {
+      isLoading = true;
+      update();
+
+      Dio dio = Dio();
+      var response = await dio.post(
+        Api.flatVisitFormApi,
+        data: request,
+        queryParameters: params
+      );
+      log("('flat visit form response=======>>>: ${response.data}'");
+      
+      if(response.statusCode == 200){
+        customSnackBar(response.data?['message'].toString() ?? 'Form submitted successfully');
+        visitDateCont.clear();
+        visitTimeCont.clear();
+        visitPurposeCont.clear();
+      }else {
+        customSnackBar(response.data?['message'].toString() ?? 'Submission failed');
+      }
+    } 
+    on DioException catch (e) {
+      log('Failed to upload flat visit form =======>>>: $e');
+      customSnackBar("Failed to upload flat visit form. Please try again.");
+    } catch (e) {
+      log('Unexpected error to upload flat visit form: $e');
+      customSnackBar("Please try again.");
+    } finally {
+      isLoading = false;
+      update();
+    }
+  }
+
+  void sendNameChangeForm() async{
+    if (nameChaneFormAttached == false || file == null) {
+      customSnackBar("Please attach a valid file");
+      return;
+    }
+    String email = Get.find<AppHolder>().email.isNotEmpty ? Get.find<AppHolder>().email : Get.find<AppHolder>().number;
+    Map<String, dynamic> request = Get.find<AppHolder>().custId != 0
+        ?
+          {
+            "email": email,
+            "cust_id": Get.find<AppHolder>().custId,
+            "apartment_id": Get.find<MainController>().apartmentId,
+            "document_file": file
+          }
+        : {
+            "email": email,
+            "document_file": file
+          };
+
+    Map<String, dynamic> params = {
+      "apikey": Api.apiKey,
+      "action": "name_change_post" //~ to change
+    };
+
+    AnalyticsService.instance.onContactFormSubmission();
+    log('file==========>>>>>$file');
+    log('requestFile==========>>>>>$request');
+
+
+    try {
+      isLoading = true;
+      update();
+
+      Dio dio = Dio();
+      var response = await dio.post(
+        Api.nameChangeFormApi,
+        data: FormData.fromMap(request), 
+        queryParameters: params
+      );
+      log("('name change request form response=======>>>: ${response.data}'");
+      
+      if(response.statusCode == 200){
+        customSnackBar(response.data?['message'].toString() ?? 'Form submitted successfully');
+        nameChangeCont.clear();
+      }else {
+        customSnackBar(response.data?['message'].toString() ?? 'Submission failed');
+      }
+    } 
+    on DioException catch (e) {
+      log('Failed to upload name change request form =======>>>: $e');
+      customSnackBar("Failed to upload name change request form. Please try again.");
+    } catch (e) {
+      log('Unexpected error to upload complaint form: $e');
+      customSnackBar("Please try again.");
+    } finally {
+      isLoading = false;
+      update();
+    }
+  }
+
   void getFaqData() {
     Map<String, dynamic> params = {"apikey": Api.apiKey, "action": "faq"};
     log('params ---------->>>>>>>> $params');
-    int diff = 0;
-    if (Get.find<AppHolder>().localDate != "") {
-      var startTime = DateTime.parse(Get.find<AppHolder>().localDate ?? "");
-      var currentTime = DateTime.now();
-      diff = currentTime.difference(startTime).inHours;
-    }
+    // int diff = 0;
+    // if (Get.find<AppHolder>().localDate != "") {
+    //   var startTime = DateTime.parse(Get.find<AppHolder>().localDate ?? "");
+    //   var currentTime = DateTime.now();
+    //   diff = currentTime.difference(startTime).inHours;
+    // }
     // if (diff >= 5 || Get.find<AppHolder>().localDate == "") {
     getFaqDataUseCase.invoke(params).listen((event) {
       event.when(loading: () {
@@ -181,6 +504,7 @@ class SupportController extends BaseController {
         update();
       }, content: (response) async {
         faqDataResponse = response;
+        // ignore: avoid_function_literals_in_foreach_calls
         faqDataResponse!.data!.forEach((element) {
           if (!faqCategory.contains(element.category)) {
             faqCategory.add(element.category.toString());
@@ -210,7 +534,7 @@ class SupportController extends BaseController {
     //   update();
     // }
   }
-
+  
   questionList(String name) {
     faqData.clear();
     for (var element in faqDataResponse!.data!) {

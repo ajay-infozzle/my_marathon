@@ -1,13 +1,10 @@
-import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:marathon/data/tools/extensions/num_ext.dart';
 import 'package:marathon/view/main_page/home/drawer/drawer.dart';
-import 'package:url_launcher/url_launcher.dart';
 import '../../../../controllers/support_controller/support_controller.dart';
-import '../../../../data/server/api/api_const.dart';
 import '../../../../data/tools/constants/app_assets.dart';
 import '../../../../data/tools/decoration/dimens.dart';
 import '../../../../data/tools/decoration/res_colors.dart';
@@ -50,6 +47,7 @@ class SupportDetailPage extends StatelessWidget {
             Get.back();
           },
         ),
+        // ignore: deprecated_member_use
         title: SvgPicture.asset(AppAssets.icon.marathonLogo,color: Colors.white,width: 171,height: 22),
         actions: [
           IconButton(
@@ -112,7 +110,7 @@ class SupportDetailPage extends StatelessWidget {
                       Expanded(
                         child: ListView.builder(
                             shrinkWrap: true,
-                            itemCount: controller.faqData.length ?? 0,
+                            itemCount: controller.faqData.length,
                             itemBuilder: (context, index) {
                               return Column(
                                 children: [
@@ -134,9 +132,7 @@ class SupportDetailPage extends StatelessWidget {
                                       onTap: () {
                                         controller.openTab(index);
                                       },
-                                      title: controller.faqData[index].question
-                                              .toString() ??
-                                          "",
+                                      title: controller.faqData[index].question.toString(),
                                       child:
                                           controller.openIndex.contains(index)
                                               ? const RotatedBox(
@@ -159,9 +155,7 @@ class SupportDetailPage extends StatelessWidget {
                                       open: () {
                                         controller.openTab(index);
                                       },
-                                      content: controller.faqData[index].answer
-                                              .toString() ??
-                                          "",
+                                      content: controller.faqData[index].answer.toString(),
                                     ),
                                 ],
                               );

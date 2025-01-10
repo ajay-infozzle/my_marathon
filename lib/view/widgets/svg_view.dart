@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:get/get.dart';
 
 import '../../data/tools/decoration/res_colors.dart';
 
@@ -12,15 +11,14 @@ class SvgView extends StatelessWidget {
 
   final BoxFit fit;
   const SvgView(
-      {Key? key,
+      {super.key,
       this.color,
       required this.height,
       required this.width,
       this.fit = BoxFit.fill,
       required this.imageUrl,
 
-      })
-      : super(key: key);
+      });
 
   ColorFilter get colorFilter => color == null
       ? const ColorFilter.mode(Colors.transparent, BlendMode.color)
@@ -28,8 +26,8 @@ class SvgView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final h = MediaQuery.of(context).size.height;
-    final w = MediaQuery.of(context).size.width;
+    // final h = MediaQuery.of(context).size.height;
+    // final w = MediaQuery.of(context).size.width;
     return SvgPicture.asset(
       imageUrl,
       width: width,

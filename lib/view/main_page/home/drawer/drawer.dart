@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:marathon/controllers/mainController/main_controller.dart';
@@ -8,12 +6,8 @@ import 'package:marathon/data/tools/constants/app_assets.dart';
 import 'package:marathon/data/tools/decoration/style_res.dart';
 import 'package:marathon/data/tools/extensions/num_ext.dart';
 import 'package:marathon/view/auth_pages/change_password/change_password.dart';
-import 'package:marathon/view/main_page/home/home_page.dart';
-import 'package:marathon/view/main_page/home/refer/refer_page.dart';
-import 'package:marathon/view/main_page/support/support_page.dart';
 import 'package:marathon/view/splash/splash_page.dart';
 import 'package:marathon/view/widgets/svg_view.dart';
-import '../../../../controllers/home/apartment_details_controller/apartment_controller.dart';
 import '../../../../data/tools/decoration/res_colors.dart';
 import '../my_account/my_account_page.dart';
 
@@ -179,11 +173,11 @@ class HomeDrawer extends StatelessWidget {
 }
 
 class DrawerTales extends StatelessWidget {
-  String? imgUrl;
+  final String? imgUrl;
   final String title;
   final Function onTab;
   final bool iconButton;
-  DrawerTales(
+  const DrawerTales(
       {super.key,
       required this.title,
       required this.onTab,
@@ -215,7 +209,7 @@ class DrawerTales extends StatelessWidget {
               40.pw,
               imgUrl == null
                   ? 0.pw
-                  : Container(
+                  : SizedBox(
                       width: 20,
                       height: 20,
                       child: SvgView(

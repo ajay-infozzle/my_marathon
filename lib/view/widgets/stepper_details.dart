@@ -30,7 +30,7 @@ class StepperDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final h = MediaQuery.of(context).size.height;
-    final w = MediaQuery.of(context).size.width;
+    // final w = MediaQuery.of(context).size.width;
     return SizedBox(
       width: Get.width - 100,
       child: Column(

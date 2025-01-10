@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:marathon/controllers/auth/authController.dart';
 import 'package:marathon/data/tools/extensions/num_ext.dart';
 import 'package:marathon/view/widgets/custom_general_button.dart';
 import 'package:marathon/view/widgets/sheet_back_button.dart';
@@ -8,7 +7,6 @@ import '../../../controllers/auth/password_verification_controller/password_veri
 import '../../../data/tools/decoration/dimens.dart';
 import '../../../data/tools/decoration/res_colors.dart';
 import '../../../data/tools/decoration/style_res.dart';
-import '../../widgets/common_beta_version_email.dart';
 import '../../widgets/custom_textfield.dart';
 import '../login_page.dart';
 
@@ -23,8 +21,8 @@ class PasswordVerificationPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final h = MediaQuery.of(context).size.height;
-    final w = MediaQuery.of(context).size.width;
+    // final h = MediaQuery.of(context).size.height;
+    // final w = MediaQuery.of(context).size.width;
     return GetBuilder<PasswordVerificationController>(
         init: PasswordVerificationController(Get.find()),
         builder: (controller) {

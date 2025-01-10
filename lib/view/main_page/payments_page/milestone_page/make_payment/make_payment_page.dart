@@ -7,15 +7,11 @@ import 'package:marathon/data/tools/extensions/num_ext.dart';
 import 'package:marathon/view/main_page/home/drawer/drawer.dart';
 import 'package:marathon/view/widgets/custom_general_button.dart';
 import 'package:marathon/view/widgets/custom_textfield.dart';
-import 'package:steps_indicator/steps_indicator.dart';
-import 'package:url_launcher/url_launcher.dart';
 import '../../../../../controllers/home/payments/milestone/make_payment_controller/make_payment_controller.dart';
 import '../../../../../controllers/mainController/main_controller.dart';
-import '../../../../../data/server/api/api_const.dart';
 import '../../../../../data/tools/constants/app_assets.dart';
 import '../../../../../data/tools/decoration/res_colors.dart';
 import '../../../../../data/tools/decoration/style_res.dart';
-import '../../../../widgets/common_beta_version_email.dart';
 import '../../../../widgets/common_whtasapp_button.dart';
 
 class MakePaymentPage extends StatefulWidget {
@@ -47,9 +43,9 @@ class _MakePaymentPageState extends State<MakePaymentPage> {
       setState(() {});
 
 
-      print('redBox==========INIT=>>>>${redBox?.height}');
-      print('redBox=======11111===INIT=>>>>${redBox1?.height}');
-      print('redBox======22222====INIT=>>>>${redBox2?.height}');
+      log('redBox==========INIT=>>>>${redBox?.height}');
+      log('redBox=======11111===INIT=>>>>${redBox1?.height}');
+      log('redBox======22222====INIT=>>>>${redBox2?.height}');
     });
     super.initState();
   }
@@ -85,6 +81,7 @@ class _MakePaymentPageState extends State<MakePaymentPage> {
                   Get.back();
                 },
               ),
+              // ignore: deprecated_member_use
               title:SvgPicture.asset(AppAssets.icon.marathonLogo,color: Colors.white,width: 171,height: 22),
               actions: [
                 IconButton(
@@ -144,7 +141,7 @@ class _MakePaymentPageState extends State<MakePaymentPage> {
                                   ),
                                 ],
                               ),
-                              SizedBox(width: 35,),
+                              const SizedBox(width: 35,),
                               Container(
                                 width: Get.width - 100,
                                 // color: ColorRes.grey,
@@ -217,7 +214,7 @@ class _MakePaymentPageState extends State<MakePaymentPage> {
                                   ),
                                 ],
                               ),
-                              SizedBox(width: 35,),
+                              const SizedBox(width: 35,),
                               Container(
                                 width: Get.width - 100,
 
@@ -251,7 +248,7 @@ class _MakePaymentPageState extends State<MakePaymentPage> {
                                           MediaQuery.of(context).size.height *
                                               0.01,
                                     ),
-                                    Container(
+                                    SizedBox(
                                       height: 100,
                                       child: Text(
                                         "Bank Name: ${controller.paymentResponse?.data?.rera?.bankDetails?.name}"
@@ -296,8 +293,8 @@ class _MakePaymentPageState extends State<MakePaymentPage> {
                                   ),
                                 ],
                               ),
-                              SizedBox(width: 35,),
-                              Container(
+                              const SizedBox(width: 35,),
+                              SizedBox(
                                 width: Get.width - 100,
                                 // color: ColorRes.grey,
                                 key: key2,

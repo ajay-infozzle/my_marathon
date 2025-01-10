@@ -1,13 +1,11 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:html_to_pdf_plus/html_to_pdf_plus.dart';
 import 'package:marathon/controllers/base/base_controller.dart';
-import 'package:marathon/controllers/home/payments/milestone/make_payment_controller/make_payment_controller.dart';
 import 'package:marathon/data/services/analytics_service.dart';
 import 'package:marathon/data/tools/constants/app_assets.dart';
 import 'package:marathon/domain/entities/all_project/all_project_response.dart';
@@ -199,7 +197,7 @@ class ApartmentController extends BaseController {
               }
             }
           }
-          Get.find<AppHolder>().homeData = jsonEncode(response) ?? "";
+          Get.find<AppHolder>().homeData = jsonEncode(response).isNotEmpty ? jsonEncode(response) : "";
           Get.find<AppHolder>().localDate = DateTime.now().toString();
         }, error: (error) {
           customSnackBar(error.toString());
@@ -296,7 +294,7 @@ class ApartmentController extends BaseController {
         }, content: (response) async {
           int r = 0;
           ledgerDetailsResponse = response;
-          Get.find<AppHolder>().ledgerDetail = jsonEncode(response) ?? "";
+          Get.find<AppHolder>().ledgerDetail = jsonEncode(response).isNotEmpty ? jsonEncode(response) : "";
           r = ledgerDetailsResponse?.data?.milestones?.length ?? 0;
           if (r > 4) {
             l = 4;
@@ -316,7 +314,8 @@ class ApartmentController extends BaseController {
     } else {
       isLoading = true;
       update();
-      print("ledgerDetail===>>>${Get.find<AppHolder>().ledgerDetail!}");
+      log("ledgerDetail===>>>${Get.find<AppHolder>().ledgerDetail!}");
+
       ledgerDetailsResponse = LedgerDetailsResponse.fromJson(
           jsonDecode(Get.find<AppHolder>().ledgerDetail!));
       isLoading = false;
@@ -340,7 +339,7 @@ class ApartmentController extends BaseController {
           update();
         }, content: (response) async {
           allProjectResponse = response;
-          Get.find<AppHolder>().projectData = jsonEncode(response) ?? "";
+          Get.find<AppHolder>().projectData = jsonEncode(response).isNotEmpty ? jsonEncode(response) : "";
           update();
         }, error: (error) {
           customSnackBar(error.toString());

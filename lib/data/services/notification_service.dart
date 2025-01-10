@@ -6,7 +6,6 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:marathon/data/storage/app/app_holder.dart';
 import 'package:marathon/data/tools/toast/custom_snackbar.dart';
-import 'package:marathon/view/main_page/kyc/kyc_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../firebase_options.dart';
@@ -39,12 +38,10 @@ class NotificationService {
       log("Foreground notification message=====>${message!.notification}");
       log("Foreground notification data=====>${message.data}");
       RemoteNotification? notification = message.notification;
-      AndroidNotification? android = message.notification?.android;
+      // AndroidNotification? android = message.notification?.android;
       log('NOtification Call :${notification?.apple}${notification!.body}${notification.title}${notification.bodyLocKey}${notification.bodyLocKey}');
 
-      if (message != null) {
-        showMsg(notification, message);
-      }
+      showMsg(notification, message);
     });
   }
 

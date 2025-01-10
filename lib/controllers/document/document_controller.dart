@@ -22,7 +22,6 @@ import 'package:rxdart/rxdart.dart';
 import '../../data/server/api/api_const.dart';
 import '../../data/storage/app/app_holder.dart';
 import '../../data/tools/toast/custom_snackbar.dart';
-import '../../domain/entities/aparments/apartment_details/apartment_details_response.dart';
 
 class DocumentController extends BaseController {
 
@@ -59,7 +58,7 @@ class DocumentController extends BaseController {
 
     file = File(result?.paths.first ?? "");
     int fileSize = file!.lengthSync();
-    print("FileSize===>>>>$fileSize");
+    log("FileSize===>>>>$fileSize");
     if (fileSize > 8 * 1024 * 1024) {
       customSnackBar("File size should not exceed 8 MB");
       return;
@@ -67,7 +66,6 @@ class DocumentController extends BaseController {
 
     bookName = result!.names.first!;
     uploadDocument.text = bookName;
-    print(bookName);
     update();
   }
 
@@ -99,7 +97,7 @@ class DocumentController extends BaseController {
           responses?.data?.receipts?.forEach((k, v) {
             list.add(k.toString());
           });
-          Get.find<AppHolder>().documentData = jsonEncode(response) ?? "";
+          Get.find<AppHolder>().documentData = jsonEncode(response);
           update();
         }, error: (error) {
           customSnackBar(error.toString());
@@ -159,7 +157,7 @@ class DocumentController extends BaseController {
       Get.find<MainController>().apartmentId,
       uploadDocument.text,
       documentName.text,
-      Get.find<AppHolder>().custId.toString() ?? "",
+      Get.find<AppHolder>().custId.toString(),
     )
         .listen((event) {
       event.when(loading: () {

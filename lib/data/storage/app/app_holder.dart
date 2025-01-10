@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 abstract class AppHolder {
   late String language;
   late String fcmToken;

@@ -194,7 +194,7 @@ class AuthController extends BaseController {
   }
 
   void forgotOtpGet() {
-    String code = countryCode.split('+').last;
+    // String code = countryCode.split('+').last;
     Map<String, dynamic> request = isNumber
         ? {"mobile": countryCode + numberController.text}
         : {"email": emailController.text};
@@ -202,7 +202,7 @@ class AuthController extends BaseController {
       "apikey": Api.apiKey,
       "action": "forgot_password_get_otp"
     };
-    log('request ---------->>>>>>>> ${request}');
+    log('request ---------->>>>>>>> $request');
     loginUseCase.invoke(params, request).listen((event) {
       event.when(loading: () {
         isLoading = true;
@@ -282,7 +282,7 @@ class AuthController extends BaseController {
       customSnackBar('Please, check the confirm password');
       return;
     }
-    String code = countryCode.split('+').last;
+    // String code = countryCode.split('+').last;
     Map<String, dynamic> request = isNumber
         ? {
             "mobile": countryCode + numberController.text,
@@ -342,7 +342,7 @@ class AuthController extends BaseController {
     }
     //~
 
-    String code = countryCode.split('+').last;
+    // String code = countryCode.split('+').last;
     Map<String, dynamic> request = isNumber
         ? {"mobile": countryCode + numberController.text, "otp": otp, "fcm": token,}
         : {"email": countryCode + numberController.text, "otp": otp, "fcm": token,};

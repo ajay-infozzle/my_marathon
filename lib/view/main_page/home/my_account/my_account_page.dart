@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import '../../../../controllers/home/payments/payments_controller.dart';
 import '../../../../controllers/my_account/my_account_controller.dart';
 import '../../../../data/storage/app/app_holder.dart';
 import '../../../../data/tools/constants/app_assets.dart';
-import '../../../../data/tools/decoration/dimens.dart';
 import '../../../../data/tools/decoration/res_colors.dart';
 import '../../../../data/tools/decoration/style_res.dart';
-import '../../../widgets/common_beta_version_email.dart';
 import '../../../widgets/common_whtasapp_button.dart';
 import '../../../widgets/custom_general_button.dart';
 import '../drawer/drawer.dart';
@@ -54,6 +51,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
                 },
               ),
               title: SvgPicture.asset(AppAssets.icon.marathonLogo,
+                  // ignore: deprecated_member_use
                   color: Colors.white, width: 171, height: 22),
               actions: [
                 IconButton(

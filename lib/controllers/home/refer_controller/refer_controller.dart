@@ -2,7 +2,6 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_contacts/flutter_contacts.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:marathon/controllers/base/base_controller.dart';
 import 'package:marathon/domain/entities/refer/refer_project_response.dart';
 import 'package:marathon/domain/entities/refer/refer_response.dart';
@@ -10,9 +9,6 @@ import 'package:marathon/domain/use_cases/refer_use_case/refer_use_case.dart';
 import 'package:rxdart/rxdart.dart';
 import '../../../data/server/api/api_const.dart';
 import '../../../data/storage/app/app_holder.dart';
-import '../../../data/tools/constants/app_assets.dart';
-import '../../../data/tools/decoration/res_colors.dart';
-import '../../../data/tools/decoration/style_res.dart';
 import '../../../data/tools/toast/custom_snackbar.dart';
 import '../../../domain/use_cases/refer_use_case/refer_project_use_case.dart';
 import '../../mainController/main_controller.dart';
@@ -146,12 +142,12 @@ class ReferController extends BaseController {
       "action": "refer_projects"
     };
     log('params ---------->>>>>>>> $params');
-    int diff = 0;
-    if (Get.find<AppHolder>().localDate != "") {
-      var startTime = DateTime.parse(Get.find<AppHolder>().localDate ?? "");
-      var currentTime = DateTime.now();
-      diff = currentTime.difference(startTime).inHours;
-    }
+    // int diff = 0;
+    // if (Get.find<AppHolder>().localDate != "") {
+    //   var startTime = DateTime.parse(Get.find<AppHolder>().localDate ?? "");
+    //   var currentTime = DateTime.now();
+    //   diff = currentTime.difference(startTime).inHours;
+    // }
 
     referProjectUseCase.invoke(params).listen((event) {
       event.when(loading: () {

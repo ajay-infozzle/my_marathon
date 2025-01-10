@@ -1,7 +1,5 @@
 import 'dart:io';
 
-import 'package:marathon/domain/entities/document_post/post_document_response.dart';
-import 'package:marathon/domain/entities/ledge/ledger_details_response.dart';
 import 'package:marathon/domain/entities/message/message.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -19,13 +17,12 @@ class SendMessageUseCase {
   Stream<Result<MessageData?>> invoke(
           Map<String, dynamic> params,
           File documentFile,
-
           String? documentType,
-
           String? message,
           String? subject) =>
       _repo
-          .sendMessage(params, documentFile,documentType,message,subject) //   Stream<TokenResponse>
+          .sendMessage(params, documentFile, documentType, message,
+              subject) //   Stream<TokenResponse>
           .map((response) {
             if (response != null) {}
             return Result.content(response);

@@ -1,20 +1,16 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
-import 'package:flutter_contacts/flutter_contacts.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:marathon/controllers/home/refer_controller/refer_controller.dart';
 import 'package:marathon/data/services/analytics_service.dart';
 import 'package:marathon/data/tools/extensions/num_ext.dart';
-import '../../../../../controllers/mainController/main_controller.dart';
 import '../../../../../data/tools/constants/app_assets.dart';
 import '../../../../../data/tools/decoration/dimens.dart';
 import '../../../../../data/tools/decoration/res_colors.dart';
 import '../../../../../data/tools/decoration/style_res.dart';
-import '../../../../widgets/common_beta_version_email.dart';
 import '../../../../widgets/common_whtasapp_button.dart';
 import '../../../../widgets/custom_general_button.dart';
-import '../../drawer/drawer.dart';
 
 class InviteDetailPage extends StatefulWidget {
 
@@ -33,7 +29,6 @@ class _InviteDetailPageState extends State<InviteDetailPage> {
   @override
   void initState() {
     log('referController.selectProject==========>>>>>${referController.selectProject}');
-    // TODO: implement initState
     super.initState();
   }
 
@@ -54,6 +49,7 @@ class _InviteDetailPageState extends State<InviteDetailPage> {
           },
         ),
         title: SvgPicture.asset(AppAssets.icon.marathonLogo,
+            // ignore: deprecated_member_use
             color: Colors.white, width: 171, height: 22),
       ),
       body: GetBuilder<ReferController>(
@@ -216,6 +212,8 @@ class _InviteDetailPageState extends State<InviteDetailPage> {
                             );
                           },
                         );
+                        
+                        // ignore: avoid_function_literals_in_foreach_calls
                         controller.selectedContact.forEach((element) {
                           if (controller.selectedContact.contains(element)) {
                             log('element==========>>>>>$element');

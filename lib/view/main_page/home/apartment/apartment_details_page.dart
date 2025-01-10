@@ -1,21 +1,15 @@
 import 'dart:async';
 import 'dart:developer';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart';
 import 'package:get/get.dart';
 import 'package:marathon/controllers/home/apartment_details_controller/apartment_controller.dart';
 import 'package:marathon/data/tools/extensions/num_ext.dart';
 import 'package:marathon/data/tools/toast/custom_snackbar.dart';
 import 'package:marathon/view/widgets/custom_general_button.dart';
-import 'package:steps_indicator/steps_indicator.dart';
 import 'package:url_launcher/url_launcher.dart';
-import '../../../../data/tools/constants/app_assets.dart';
 import '../../../../data/tools/decoration/dimens.dart';
 import '../../../../data/tools/decoration/res_colors.dart';
 import '../../../../data/tools/decoration/style_res.dart';
-import '../../../widgets/common_beta_version_email.dart';
-import '../../../widgets/stepper_details.dart';
 import '../../payments_page/milestone_page/make_payment/make_payment_page.dart';
 import '../../payments_page/milestone_page/milestone_page.dart';
 
@@ -74,7 +68,7 @@ class _ApartmentDetailsState extends State<ApartmentDetails> {
   Widget build(BuildContext context) {
     final h = MediaQuery.of(context).size.height;
     log('MediaQuery.of(context).size.height==========>>>>>${MediaQuery.of(context).size.width}');
-    final w = MediaQuery.of(context).size.width;
+    // final w = MediaQuery.of(context).size.width;
     return GetBuilder<ApartmentController>(
         init:
             ApartmentController(Get.find(), Get.find(), Get.find(), Get.find()),
@@ -605,7 +599,7 @@ class _ApartmentDetailsState extends State<ApartmentDetails> {
                                 ],
                               ),
                               35.pw,
-                              Container(
+                              SizedBox(
                                 width: Get.width - 100,
                                 // color: ColorRes.grey,
                                 key: key2,
@@ -697,8 +691,28 @@ class _ApartmentDetailsState extends State<ApartmentDetails> {
                           ),
                         ),
                         SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.05,
+                          height: MediaQuery.of(context).size.height * 0.04,
                         ),
+
+                        Container(
+                          margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                          // padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                          width: Get.width,
+                          // decoration: BoxDecoration(
+                          //     color: ColorRes.mainButtonColor.withOpacity(.025),
+                          //     borderRadius: BorderRadius.circular(10)
+                          // ),
+                          child: const Text(
+                            "Please note that payment details will reflect on the web portal or mobile app within 24 to 48 hours after the amount is realized in our account.",
+                            style: TextStyle(
+                              color: ColorRes.greyTextColor,
+                              fontSize: 12
+                            ),
+                            textAlign: TextAlign.start,
+                          ),
+                        ),
+                        20.ph,
+
                         Row(
                           children: [
                             Expanded(

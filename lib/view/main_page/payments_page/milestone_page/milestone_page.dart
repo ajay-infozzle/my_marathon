@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -10,11 +9,8 @@ import 'package:marathon/domain/entities/ledge/receipt.dart';
 import 'package:marathon/view/main_page/payments_page/milestone_page/make_payment/make_payment_page.dart';
 import 'package:marathon/view/widgets/custom_general_button.dart';
 import 'package:marathon/view/widgets/svg_view.dart';
-import 'package:url_launcher/url_launcher.dart';
-import '../../../../data/server/api/api_const.dart';
 import '../../../../data/tools/constants/app_assets.dart';
 import '../../../../data/tools/decoration/res_colors.dart';
-import '../../../widgets/common_beta_version_email.dart';
 import '../../../widgets/common_whtasapp_button.dart';
 import '../../home/drawer/drawer.dart';
 
@@ -50,6 +46,7 @@ class MileStonePage extends StatelessWidget {
                 },
               ),
               title: SvgPicture.asset(AppAssets.icon.marathonLogo,
+                  // ignore: deprecated_member_use
                   color: Colors.white, width: 171, height: 22),
               actions: [
                 IconButton(
@@ -222,7 +219,7 @@ class PaymentStatus extends StatelessWidget {
     required this.receiptId,
   });
 
-  PaymentsController paymentsController = Get.find();
+  final PaymentsController paymentsController = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -419,7 +416,7 @@ class PaymentStatus extends StatelessWidget {
                         ),
                     )
                     :const SizedBox(),
-                status == "Partially Paid"?SizedBox(height: 10):SizedBox(),
+                status == "Partially Paid"? const SizedBox(height: 10): const SizedBox(),
                 const Divider(),
                 Padding(
                   padding:const EdgeInsets.symmetric(horizontal: 10.0),

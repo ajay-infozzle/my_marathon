@@ -5,7 +5,6 @@ import 'package:marathon/data/storage/app/app_holder.dart';
 import 'package:marathon/data/tools/extensions/num_ext.dart';
 import 'package:marathon/view/widgets/net_image.dart';
 
-import '../../../../data/tools/constants/app_assets.dart';
 import '../../../../data/tools/decoration/dimens.dart';
 import '../../../../data/tools/decoration/res_colors.dart';
 import '../../../../data/tools/decoration/style_res.dart';
@@ -62,7 +61,7 @@ class HomeItem extends StatelessWidget {
                         color: ColorRes.mainTextColor),
                   ),
                   3.ph,
-                  Container(
+                  SizedBox(
                     width: MediaQuery.of(context).size.width * 0.5,
                     child: Text(
                       textAlign: TextAlign.start,

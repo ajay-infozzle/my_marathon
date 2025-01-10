@@ -1,20 +1,14 @@
 import 'dart:developer';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:flutter_contacts/flutter_contacts.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:marathon/controllers/home/refer_controller/refer_controller.dart';
 import 'package:marathon/data/tools/extensions/num_ext.dart';
 import 'package:marathon/data/tools/toast/custom_snackbar.dart';
-import 'package:url_launcher/url_launcher.dart';
-import '../../../../../data/server/api/api_const.dart';
 import '../../../../../data/tools/constants/app_assets.dart';
 import '../../../../../data/tools/decoration/dimens.dart';
 import '../../../../../data/tools/decoration/res_colors.dart';
 import '../../../../../data/tools/decoration/style_res.dart';
-import '../../../../widgets/common_beta_version_email.dart';
 import '../../../../widgets/common_whtasapp_button.dart';
 import '../../../../widgets/custom_general_button.dart';
 import '../../drawer/drawer.dart';
@@ -60,6 +54,7 @@ class _InvitePageState extends State<InvitePage> {
                 },
               ),
               title: SvgPicture.asset(AppAssets.icon.marathonLogo,
+                  // ignore: deprecated_member_use
                   color: Colors.white, width: 171, height: 22),
               actions: [
                 IconButton(
@@ -329,7 +324,7 @@ class _InvitePageState extends State<InvitePage> {
                                         color: ColorRes.mainButtonColor),
                                     activeColor: ColorRes.white,
                                     checkColor: ColorRes.white,
-                                    fillColor: MaterialStatePropertyAll(
+                                    fillColor: WidgetStatePropertyAll(
                                         controller.checkValue![i] == true
                                             ? ColorRes.mainButtonColor
                                             : ColorRes.white),

@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -7,7 +5,6 @@ import 'package:marathon/data/tools/toast/custom_snackbar.dart';
 import 'package:marathon/domain/entities/documents/documents_receipts.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../../controllers/mainController/main_controller.dart';
-import '../../../../data/server/api/api_const.dart';
 import '../../../../data/tools/constants/app_assets.dart';
 import '../../../../data/tools/decoration/res_colors.dart';
 import '../../../../domain/entities/documents/documents.dart';
@@ -16,9 +13,9 @@ import '../../home/drawer/drawer.dart';
 import '../widgets/document_tile.dart';
 
 class DocumentDownloadPage extends StatelessWidget {
-  MainController mainController = MainController();
+  final MainController mainController = MainController();
   final bool isGeneral;
-  List<String> documentTitles = [
+  final List<String> documentTitles = [
     "Account Statement",
     "Bank ROC",
     "Builder NOC",
@@ -26,9 +23,9 @@ class DocumentDownloadPage extends StatelessWidget {
     "Registeration Slip",
     "Sales Deed"
   ];
-  List<Documents>? documents;
-  List<String>? title;
-  Map? receipt;
+  final List<Documents>? documents;
+  final List<String>? title;
+  final Map? receipt;
 
   DocumentDownloadPage(
       {super.key,
@@ -62,6 +59,7 @@ class DocumentDownloadPage extends StatelessWidget {
             Get.back();
           },
         ),
+        // ignore: deprecated_member_use
         title: SvgPicture.asset(AppAssets.icon.marathonLogo,color: Colors.white,width: 171,height: 22),
         // Image(
         //   image: AssetImage(AppAssets.images.logoMarathon),

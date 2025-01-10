@@ -1,17 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:marathon/controllers/home/payments/payments_controller.dart';
-import 'package:marathon/data/tools/constants/app_assets.dart';
 import 'package:marathon/data/tools/extensions/num_ext.dart';
 import 'package:marathon/domain/entities/ledge/receipt.dart';
-import 'package:marathon/view/main_page/payments_page/milestone_page/make_payment/make_payment_page.dart';
 import 'package:marathon/view/main_page/payments_page/milestone_page/milestone_page.dart';
 import 'package:marathon/view/widgets/custom_general_button.dart';
-import 'package:marathon/view/widgets/svg_view.dart';
 import '../../../data/tools/decoration/dimens.dart';
 import '../../../data/tools/decoration/res_colors.dart';
 import '../../../data/tools/decoration/style_res.dart';
-import '../../widgets/common_beta_version_email.dart';
+
 
 class PaymentsPage extends StatelessWidget {
   const PaymentsPage({super.key});
@@ -112,8 +109,7 @@ class PaymentsPage extends StatelessWidget {
                                 OverViewDetail(
                                   title: "Carpet Area :",
                                   description:
-                                      "${double.parse(controller.ledgerDetailsResponse?.data?.details?.carpetAreaRera ?? "0").toStringAsFixed(2)} sq.ft. " ??
-                                          "",
+                                      "${double.parse(controller.ledgerDetailsResponse?.data?.details?.carpetAreaRera ?? "0").toStringAsFixed(2)} sq.ft. ",
                                 ),
                               ],
                             ),
@@ -172,6 +168,22 @@ class PaymentsPage extends StatelessWidget {
                           ),
                         ),
                         10.ph,
+
+                        Container(
+                          margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                          // padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                          width: Get.width,
+                          child: const Text(
+                            "Please note that payment details will reflect on the web portal or mobile app within 24 to 48 hours after the amount is realized in our account.",
+                            style: TextStyle(
+                              color: ColorRes.greyTextColor,
+                              fontSize: 12
+                            ),
+                            textAlign: TextAlign.start,
+                          ),
+                        ),
+                        10.ph,
+
                         Column(
                           children: [
                             16.ph,

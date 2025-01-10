@@ -1,12 +1,9 @@
-import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:marathon/controllers/base/base_controller.dart';
 import 'package:marathon/controllers/document/document_controller.dart';
 import 'package:marathon/controllers/home/payments/payments_controller.dart';
 import 'package:marathon/controllers/support_controller/support_controller.dart';
-import 'package:marathon/data/storage/app/app_holder.dart';
-import 'package:marathon/data/storage/app/app_prefs.dart';
 import 'package:marathon/view/main_page/documents/documents.dart';
 import 'package:marathon/view/main_page/home/apartment/apartment_details_page.dart';
 import 'package:marathon/view/main_page/payments_page/payments_page.dart';

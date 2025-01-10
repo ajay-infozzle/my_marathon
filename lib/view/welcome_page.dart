@@ -1,15 +1,13 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:marathon/data/tools/constants/app_assets.dart';
 import 'package:marathon/data/tools/decoration/res_colors.dart';
 import 'package:marathon/data/tools/decoration/style_res.dart';
 import 'package:marathon/data/tools/extensions/num_ext.dart';
-import 'package:marathon/view/widgets/common_beta_version_email.dart';
 import 'package:marathon/view/widgets/custom_general_button.dart';
 import 'auth_pages/login_page.dart';
 import 'auth_pages/register_page/register_page.dart';
-import 'package:url_launcher/url_launcher.dart';
+
 
 class WelcomePage extends StatefulWidget {
   const WelcomePage({super.key});
@@ -23,7 +21,7 @@ class _WelcomePageState extends State<WelcomePage> {
   @override
   Widget build(BuildContext context) {
     final h = MediaQuery.of(context).size.height;
-    final w = MediaQuery.of(context).size.width;
+    // final w = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: ColorRes.white,
       body: SingleChildScrollView(

@@ -6,15 +6,16 @@ class Api {
   // static const _baseUrl = 'https://marathon-staging.testingweblink.com/wp-json';
   static const _baseUrl = 'https://marathon.in/wp-json';
 
-  static const _student = 'student';
-  static const _teacher = 'teacher';
-
   //auth
   static const getAppVersion = '$baseUrl/api/getinfoformobileapp?apikey=$apiKey&action=app_version';
   static const login = '$_api/login';
   static const getInfo = '$_api/getinfoformobileapp';
   static const getAllProject = '$_baseUrl/marathon-api/v1/all-projects';
   static const getTermsAndCondition ='$_baseUrl/marathon-api/v1/terms-and-conditions';
+
+  static const complainFormApi ='$baseUrl/marathon-api/v1/';
+  static const flatVisitFormApi ='$baseUrl/marathon-api/v1/';
+  static const nameChangeFormApi ='$baseUrl/marathon-api/v1/';
 
   static const referApi =
       'https://hooks.zapier.com/hooks/catch/293636/2b2t5vf/';
