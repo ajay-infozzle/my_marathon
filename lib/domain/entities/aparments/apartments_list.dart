@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:marathon/domain/entities/aparments/apartment.dart';
 import 'package:marathon/domain/entities/aparments/apartments_list_data.dart';
 
 part 'apartments_list.g.dart';

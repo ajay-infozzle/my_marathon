@@ -18,7 +18,7 @@ class Api {
   static const nameChangeFormApi ='$baseUrl/marathon-api/v1/';
 
   static const referApi =
-      'https://hooks.zapier.com/hooks/catch/293636/2b2t5vf/';
+      '';
   static Uri whatsApp = Uri.parse(
       "https://wa.me/917677350350?text=%22Hi%2C%20I%20require%20support%20from%20the%20Marathon%20Customer%20Care%20team.%20Please%20get%20in%20touch%22");
 }

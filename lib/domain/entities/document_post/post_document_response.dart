@@ -1,6 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:marathon/domain/entities/document_post/document_post.dart';
-import 'package:marathon/domain/entities/ledge/ledger_details.dart';
+
 
 part 'post_document_response.g.dart';
 @JsonSerializable()

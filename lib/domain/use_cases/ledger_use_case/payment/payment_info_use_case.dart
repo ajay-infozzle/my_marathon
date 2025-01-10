@@ -1,4 +1,3 @@
-import 'package:marathon/domain/entities/ledge/ledger_details_response.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../../../../data/server/error_parser.dart';

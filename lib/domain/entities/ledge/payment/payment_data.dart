@@ -1,8 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:marathon/domain/entities/ledge/payment/rera.dart';
-
-import 'bank_details.dart';
-
 part 'payment_data.g.dart';
 
 @JsonSerializable()

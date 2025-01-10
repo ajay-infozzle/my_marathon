@@ -1,5 +1,4 @@
 import 'package:marathon/domain/entities/refer/refer_response.dart';
-import 'package:marathon/domain/entities/support/faq_data_response.dart';
 import 'package:rxdart/rxdart.dart';
 import '../../../data/server/error_parser.dart';
 import '../../entities/result_common/result.dart';

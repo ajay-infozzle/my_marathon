@@ -1,4 +1,3 @@
-import 'package:marathon/domain/entities/all_project/all_project_response.dart';
 import 'package:marathon/domain/entities/result_common/result.dart';
 import 'package:marathon/domain/entities/terms_and_condition/terms_and_condition_response.dart';
 import 'package:marathon/domain/repo/app_repo.dart';

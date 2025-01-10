@@ -2,7 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 import '../aparments/apartment_details/apartment_details.dart';
 import '../aparments/apartment_details/milestone.dart';
-import 'demand_letter_route_data.dart';
+
 
 part 'ledger_details.g.dart';
 
@@ -14,7 +14,7 @@ class LedgerDetails {
 
   ApartmentDetails? details;
 
-  dynamic? demandLetterRouteData;
+  dynamic demandLetterRouteData;
 
   String? totalOutstanding;
 

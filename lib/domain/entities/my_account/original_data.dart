@@ -1,5 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:marathon/domain/entities/ledge/payment/rera.dart';
+
 
 part 'original_data.g.dart';
 
