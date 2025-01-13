@@ -303,18 +303,18 @@ class SupportController extends BaseController {
             "email": email,
             "cust_id": Get.find<AppHolder>().custId,
             "apartment_id": Get.find<MainController>().apartmentId,
-            "document_file": file
+            "document_file": await MultipartFile.fromFile(file!.path, filename: 'complaint_form')
           }
         : {
             "message": complainMessageController.text,
             "subject": complainSubjectController.text,
             "email": email,
-            "document_file": file
+            "document_file": await MultipartFile.fromFile(file!.path, filename: 'complaint_form')
           };
 
     Map<String, dynamic> params = {
       "apikey": Api.apiKey,
-      "action": "complaint_post" //~ to change
+      "action": "complaint_post" 
     };
 
     AnalyticsService.instance.onContactFormSubmission();
@@ -335,11 +335,13 @@ class SupportController extends BaseController {
       log("('complain form response=======>>>: ${response.data}'");
       
       if(response.statusCode == 200){
-        customSnackBar(response.data?['message'].toString() ?? 'Form submitted successfully');
+        customSnackBar(response.data?['data']['message'].toString() ?? 'Form submitted successfully');
         complainMessageController.clear();
         complainSubjectController.clear();
+        complainAttached = false;
+        file = null;
       }else {
-        customSnackBar(response.data?['message'].toString() ?? 'Submission failed');
+        customSnackBar(response.data?['data']['message'].toString() ?? 'Submission failed');
       }
     } 
     on DioException catch (e) {
@@ -387,7 +389,7 @@ class SupportController extends BaseController {
 
     Map<String, dynamic> params = {
       "apikey": Api.apiKey,
-      "action": "flat_visit_post" //~ to change
+      "action": "flat_visit_post"
     };
 
     AnalyticsService.instance.onContactFormSubmission();
@@ -402,18 +404,18 @@ class SupportController extends BaseController {
       Dio dio = Dio();
       var response = await dio.post(
         Api.flatVisitFormApi,
-        data: request,
+        data: FormData.fromMap(request),
         queryParameters: params
       );
       log("('flat visit form response=======>>>: ${response.data}'");
       
       if(response.statusCode == 200){
-        customSnackBar(response.data?['message'].toString() ?? 'Form submitted successfully');
+        customSnackBar(response.data?['data']['message'].toString() ?? 'Form submitted successfully');
         visitDateCont.clear();
         visitTimeCont.clear();
         visitPurposeCont.clear();
       }else {
-        customSnackBar(response.data?['message'].toString() ?? 'Submission failed');
+        customSnackBar(response.data?['data']['message'].toString() ?? 'Submission failed');
       }
     } 
     on DioException catch (e) {
@@ -440,11 +442,11 @@ class SupportController extends BaseController {
             "email": email,
             "cust_id": Get.find<AppHolder>().custId,
             "apartment_id": Get.find<MainController>().apartmentId,
-            "document_file": file
+            "document_file": await MultipartFile.fromFile(file!.path, filename: 'name_change_form')
           }
         : {
             "email": email,
-            "document_file": file
+            "document_file": await MultipartFile.fromFile(file!.path, filename: 'name_change_form')
           };
 
     Map<String, dynamic> params = {
@@ -470,10 +472,12 @@ class SupportController extends BaseController {
       log("('name change request form response=======>>>: ${response.data}'");
       
       if(response.statusCode == 200){
-        customSnackBar(response.data?['message'].toString() ?? 'Form submitted successfully');
+        customSnackBar(response.data?['data']['message'].toString() ?? 'Form submitted successfully');
         nameChangeCont.clear();
+        nameChaneFormAttached = false;
+        file = null;
       }else {
-        customSnackBar(response.data?['message'].toString() ?? 'Submission failed');
+        customSnackBar(response.data?['data']['message'].toString() ?? 'Submission failed');
       }
     } 
     on DioException catch (e) {
