@@ -13,12 +13,12 @@ class Api {
   static const getAllProject = '$_baseUrl/marathon-api/v1/all-projects';
   static const getTermsAndCondition ='$_baseUrl/marathon-api/v1/terms-and-conditions';
 
-  static const complainFormApi ='$baseUrl/marathon-api/v1/';
-  static const flatVisitFormApi ='$baseUrl/marathon-api/v1/';
-  static const nameChangeFormApi ='$baseUrl/marathon-api/v1/';
+  static const complainFormApi ='$baseUrl/api/getinfoformobileapp';
+  static const flatVisitFormApi ='$baseUrl/api/getinfoformobileapp';
+  static const nameChangeFormApi ='$baseUrl/api/getinfoformobileapp';
 
   static const referApi =
-      '';
+      'https://hooks.zapier.com/hooks/catch/293636/2b2t5vf/';
   static Uri whatsApp = Uri.parse(
       "https://wa.me/917677350350?text=%22Hi%2C%20I%20require%20support%20from%20the%20Marathon%20Customer%20Care%20team.%20Please%20get%20in%20touch%22");
 }
