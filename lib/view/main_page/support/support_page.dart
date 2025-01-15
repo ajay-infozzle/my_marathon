@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:get/get.dart';
 import 'package:marathon/controllers/support_controller/support_controller.dart';
+import 'package:marathon/data/server/api/api_const.dart';
 import 'package:marathon/data/tools/extensions/num_ext.dart';
 import 'package:marathon/view/widgets/custom_general_button.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -272,7 +273,7 @@ class SupportPage extends StatelessWidget {
           borderRadius:BorderRadius.circular(Dimens.buttonRadius),
           child: Padding(padding:const EdgeInsets.only(right: 15, left: 15),
             child: Container(
-              height: MediaQuery.of(context).size.height * 0.055,
+              // height: MediaQuery.of(context).size.height * 0.055,
               padding: const EdgeInsets.symmetric(horizontal: 10),
               decoration: BoxDecoration(borderRadius: BorderRadius.circular(5)),
               child: DropdownButtonHideUnderline(
@@ -840,27 +841,60 @@ class SupportPage extends StatelessWidget {
           Container(
             margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
             width: Get.width,
+            child: const Text(
+              "Please download the required form(s) below, fill them up, and upload them to the field mentioned below or share them with your Relationship Manager:",
+              style: TextStyle(
+                color: ColorRes.mainTextColor,
+                fontSize: 14,
+              ),
+            ),
+          ),
+          10.ph,
+
+          Container(
+            margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+            width: Get.width,
             child: RichText(
               text: TextSpan(
                 children: [
                   TextSpan(
-                    text: "Please download this form ",
+                    text: "Name Deletion Letter",
                     style: const TextStyle(
                       color: Colors.blue,
                       decoration: TextDecoration.underline,
                     ),
                     recognizer: TapGestureRecognizer()
                       ..onTap = () {
-                        launchUrl(Uri.parse("https://marathon.in"));
+                        launchUrl(Uri.parse(Api.nameDeletionFormDownloadUrl));
                       },
                   ),
-                  const TextSpan(
-                    text:
-                        " and fill it up and upload the form to the field mentioned below or share it with your Relationship Manager",
-                    style: TextStyle(
-                      color: ColorRes.mainTextColor,
-                      fontSize: 14,
+
+                  const TextSpan(text: "\n\n"),
+
+                  TextSpan(
+                    text: "Revised Name Addition Letter",
+                    style: const TextStyle(
+                      color: Colors.blue,
+                      decoration: TextDecoration.underline,
                     ),
+                    recognizer: TapGestureRecognizer()
+                      ..onTap = () {
+                        launchUrl(Uri.parse(Api.nameAdditionFormDownloadUrl));
+                      },
+                  ),
+
+                  const TextSpan(text: "\n\n"),
+
+                  TextSpan(
+                    text: "Revised Name Interchange Letter",
+                    style: const TextStyle(
+                      color: Colors.blue,
+                      decoration: TextDecoration.underline,
+                    ),
+                    recognizer: TapGestureRecognizer()
+                      ..onTap = () {
+                        launchUrl(Uri.parse(Api.nameInterchangeFormDownloadUrl));
+                      },
                   ),
                 ]
               ),

@@ -44,7 +44,7 @@ class SupportController extends BaseController {
     "General Service Request",
     "Complaint",
     "Flat Visit Request",
-    "Name Change Request"
+    "Name Change/Deletion/Updation Request"
   ];
 
   GetFaqDataUseCase getFaqDataUseCase;
