@@ -901,7 +901,7 @@ class SupportPage extends StatelessWidget {
             ),
           ),
           
-          10.ph,
+          20.ph,
           Container(
             margin: const EdgeInsets.symmetric(horizontal: 16),
             alignment: Alignment.center,
