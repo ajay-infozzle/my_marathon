@@ -71,16 +71,15 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
     latestVersion = await _getLatestVersionFromApi();
 
     //~ Compare versions and show dialog if needed
-    // if (currentVersion != latestVersion) {
-    //   if (_isMajorUpdate(currentVersion, latestVersion)) {
-    //     _showForceUpdateDialog();
-    //   } else {
-    //     _showOptionalUpdateDialog();
-    //   }
-    // } else {
-    //   _navigateToNextPage();
-    // }
-    _navigateToNextPage();
+    if (currentVersion != latestVersion) {
+      if (_isMajorUpdate(currentVersion, latestVersion)) {
+        _showForceUpdateDialog();
+      } else {
+        _showOptionalUpdateDialog();
+      }
+    } else {
+      _navigateToNextPage();
+    }
   }
 
   Future<String> _getLatestVersionFromApi() async {
