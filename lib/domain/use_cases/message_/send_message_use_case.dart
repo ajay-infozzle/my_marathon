@@ -16,7 +16,7 @@ class SendMessageUseCase {
 
   Stream<Result<MessageData?>> invoke(
           Map<String, dynamic> params,
-          File? documentFile,
+          File documentFile,
           String? documentType,
           String? message,
           String? subject) =>

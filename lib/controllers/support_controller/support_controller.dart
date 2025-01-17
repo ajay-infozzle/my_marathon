@@ -152,7 +152,7 @@ class SupportController extends BaseController {
   Future<FilePickerResult?> filePicker() async{
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
-      allowedExtensions: ['pdf', 'doc', 'jpg', 'png', 'svg', 'docx'],
+      allowedExtensions: ['pdf', 'doc', 'jpg', 'pdf', 'png', 'svg'],
     );
     file = File(result?.paths.first ?? "");
     int fileSize = file!.lengthSync();
@@ -214,10 +214,10 @@ class SupportController extends BaseController {
       customSnackBar("Please enter Message");
       return;
     }
-    // if (attached == false) {
-    //   customSnackBar("Please attach file");
-    //   return;
-    // }
+    if (attached == false) {
+      customSnackBar("Please attach file");
+      return;
+    }
     String email = Get.find<AppHolder>().email.isNotEmpty ? Get.find<AppHolder>().email : Get.find<AppHolder>().number;
     Map<String, dynamic> request = Get.find<AppHolder>().custId != 0
         ?
@@ -247,7 +247,7 @@ class SupportController extends BaseController {
 
     messageUseCase.invoke(
       params,
-      file,
+      file!,
       Get.find<AppHolder>().email,
       messageController.text.toString(),
       subjectController.text,
@@ -263,7 +263,6 @@ class SupportController extends BaseController {
           messageController.text = '';
           subjectController.text = '';
           emailController.text = '';
-          file = null ;
         } else {
           customSnackBar(response?.message.toString());
         }
@@ -276,7 +275,6 @@ class SupportController extends BaseController {
         messageController.text = '';
         subjectController.text = '';
         emailController.text = '';
-        file = null ;
         isLoading = false;
         update();
       })
@@ -292,10 +290,10 @@ class SupportController extends BaseController {
       customSnackBar("Please enter Message");
       return;
     }
-    // if (complainAttached == false || file == null) {
-    //   customSnackBar("Please attach a valid file");
-    //   return;
-    // }
+    if (complainAttached == false || file == null) {
+      customSnackBar("Please attach a valid file");
+      return;
+    }
     String email = Get.find<AppHolder>().email.isNotEmpty ? Get.find<AppHolder>().email : Get.find<AppHolder>().number;
     Map<String, dynamic> request = Get.find<AppHolder>().custId != 0
         ?
@@ -305,13 +303,13 @@ class SupportController extends BaseController {
             "email": email,
             "cust_id": Get.find<AppHolder>().custId,
             "apartment_id": Get.find<MainController>().apartmentId,
-            "document_file": file == null ? "" : await MultipartFile.fromFile(file!.path, filename: 'complaint_form')
+            "document_file": await MultipartFile.fromFile(file!.path, filename: 'complaint_form')
           }
         : {
             "message": complainMessageController.text,
             "subject": complainSubjectController.text,
             "email": email,
-            "document_file": file == null ? "" : await MultipartFile.fromFile(file!.path, filename: 'complaint_form')
+            "document_file": await MultipartFile.fromFile(file!.path, filename: 'complaint_form')
           };
 
     Map<String, dynamic> params = {
@@ -332,7 +330,7 @@ class SupportController extends BaseController {
       var response = await dio.post(
         Api.complainFormApi,
         data: FormData.fromMap(request), //~ FormData for file uploads
-        queryParameters: params,
+        queryParameters: params
       );
       log("('complain form response=======>>>: ${response.data}'");
       

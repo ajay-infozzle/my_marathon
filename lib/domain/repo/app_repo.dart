@@ -46,7 +46,7 @@ abstract class AppRepo {
   );
 
   Stream<MessageData?> sendMessage(Map<String, dynamic> params,
-      File? documentFile, String? email, String? message, String? subject);
+      File documentFile, String? email, String? message, String? subject);
 
   Stream<PaymentResponse?> paymentInfo(
       Map<String, dynamic> params, Map<String, dynamic> request);

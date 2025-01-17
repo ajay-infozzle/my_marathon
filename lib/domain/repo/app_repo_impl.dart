@@ -70,7 +70,7 @@ class AppRepoImpl extends AppRepo {
 
   @override
   Stream<MessageData?> sendMessage(Map<String, dynamic> params,
-          File? documentFile, String? email, String? message, String? subject) =>
+          File documentFile, String? email, String? message, String? subject) =>
       api.sendMessage(params,
           documentFile: documentFile,
           message: message,
