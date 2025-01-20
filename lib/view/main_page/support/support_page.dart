@@ -356,7 +356,7 @@ class SupportPage extends StatelessWidget {
                     Flexible(
                       child: TextFormField(
                         onTap: () {
-                          FocusScope.of(context).unfocus();
+                          // FocusScope.of(context).unfocus();
                         },
                         style: kRegularThemeTextStyle,
                         controller:controller.subjectController,
@@ -369,6 +369,7 @@ class SupportPage extends StatelessWidget {
                               fontWeight:FontWeight.w400
                             )
                         ),
+                        textInputAction: TextInputAction.next,
                       ),
                     ),
                   ],
@@ -403,20 +404,21 @@ class SupportPage extends StatelessWidget {
                       Flexible(
                         child: TextFormField(
                           onTap: () {
-                            FocusScope.of(context).unfocus();
+                            // FocusScope.of(context).unfocus();
                           },
                           style: kRegularThemeTextStyle,
                           maxLines: 100,
                           controller: controller.messageController,
                           decoration: InputDecoration(
-                              border: InputBorder.none,
-                              hintText: "Type your message here*",
-                              hintStyle: kRegularTextStyle.copyWith(
-                                fontSize: 16,
-                                color: ColorRes.hintColor,
-                                fontWeight: FontWeight.w400
-                              )
+                            border: InputBorder.none,
+                            hintText: "Type your message here*",
+                            hintStyle: kRegularTextStyle.copyWith(
+                              fontSize: 16,
+                              color: ColorRes.hintColor,
+                              fontWeight: FontWeight.w400
+                            )
                           ),
+                          textInputAction: TextInputAction.done,
                         ),
                       ),
                     ],
@@ -510,19 +512,20 @@ class SupportPage extends StatelessWidget {
                     Flexible(
                       child: TextFormField(
                         onTap: () {
-                          FocusScope.of(context).unfocus();
+                          // FocusScope.of(context).unfocus();
                         },
                         style: kRegularThemeTextStyle,
                         controller:controller.complainSubjectController,
                         decoration: InputDecoration(
-                            border: InputBorder.none,
-                            hintText: "Subject*",
-                            hintStyle:kRegularTextStyle.copyWith(
-                              fontSize: 16,
-                              color: ColorRes.hintColor,
-                              fontWeight:FontWeight.w400
-                            )
+                          border: InputBorder.none,
+                          hintText: "Subject*",
+                          hintStyle:kRegularTextStyle.copyWith(
+                            fontSize: 16,
+                            color: ColorRes.hintColor,
+                            fontWeight:FontWeight.w400
+                          )
                         ),
+                        textInputAction: TextInputAction.next,
                       ),
                     ),
                   ],
@@ -557,20 +560,21 @@ class SupportPage extends StatelessWidget {
                       Flexible(
                         child: TextFormField(
                           onTap: () {
-                            FocusScope.of(context).unfocus();
+                            // FocusScope.of(context).unfocus();
                           },
                           style: kRegularThemeTextStyle,
                           maxLines: 100,
                           controller: controller.complainMessageController,
                           decoration: InputDecoration(
-                              border: InputBorder.none,
-                              hintText: "Please share details of your complaint*",
-                              hintStyle: kRegularTextStyle.copyWith(
-                                fontSize: 16,
-                                color: ColorRes.hintColor,
-                                fontWeight: FontWeight.w400
-                              )
+                            border: InputBorder.none,
+                            hintText: "Please share details of your complaint*",
+                            hintStyle: kRegularTextStyle.copyWith(
+                              fontSize: 16,
+                              color: ColorRes.hintColor,
+                              fontWeight: FontWeight.w400
+                            )
                           ),
+                          textInputAction: TextInputAction.done,
                         ),
                       ),
                     ],
@@ -768,20 +772,21 @@ class SupportPage extends StatelessWidget {
                       Flexible(
                         child: TextFormField(
                           onTap: () {
-                            FocusScope.of(context).unfocus();
+                            // FocusScope.of(context).unfocus();
                           },
                           style: kRegularThemeTextStyle,
                           maxLines: 100,
                           controller: controller.visitPurposeCont,
                           decoration: InputDecoration(
-                              border: InputBorder.none,
-                              hintText: "Purpose of visit*",
-                              hintStyle: kRegularTextStyle.copyWith(
-                                fontSize: 16,
-                                color: ColorRes.hintColor,
-                                fontWeight: FontWeight.w400
-                              )
+                            border: InputBorder.none,
+                            hintText: "Purpose of visit*",
+                            hintStyle: kRegularTextStyle.copyWith(
+                              fontSize: 16,
+                              color: ColorRes.hintColor,
+                              fontWeight: FontWeight.w400
+                            )
                           ),
+                          textInputAction: TextInputAction.done,
                         ),
                       ),
                     ],
