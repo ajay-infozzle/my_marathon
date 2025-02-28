@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:marathon/domain/entities/my_account/my_account_response.dart';
 import 'package:marathon/domain/use_cases/my_account_use_case/my_account_use_case.dart';
 import 'package:rxdart/rxdart.dart';

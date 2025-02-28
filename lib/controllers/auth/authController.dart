@@ -53,7 +53,7 @@ class AuthController extends BaseController {
   }
 
   void findCountryCode(String value) {
-    Get.log("$value");
+    Get.log(value);
     countryCode = value;
     update();
   }

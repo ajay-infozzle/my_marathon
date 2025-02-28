@@ -1,6 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 
 import '../../data/tools/decoration/dimens.dart';
 import '../../data/tools/decoration/res_colors.dart';
@@ -15,14 +14,13 @@ class NetImageView extends StatelessWidget {
   final String name;
 
   const NetImageView(
-      {Key? key,
+      {super.key,
         required this.imageUrl,
         this.height = 80,
         this.isUserProfileImg = false,
         this.width = 80,
         this.borderRadius,
-        required this.name})
-      : super(key: key);
+        required this.name});
 
   @override
   Widget build(BuildContext context) {

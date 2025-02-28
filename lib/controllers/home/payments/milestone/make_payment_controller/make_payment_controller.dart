@@ -4,7 +4,6 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:html_to_pdf_plus/html_to_pdf_plus.dart';
-import 'package:html_to_pdf_plus/pdf_configuration.dart';
 import 'package:marathon/controllers/base/base_controller.dart';
 import 'package:marathon/controllers/mainController/main_controller.dart';
 import 'package:marathon/data/services/analytics_service.dart';
@@ -154,7 +153,7 @@ class MakePaymentController extends BaseController {
             ? "/storage/emulated/0/Download/"
             : appStorage.path;
         messageData = response;
-        log('response==========>>>>>${response}');
+        log('response==========>>>>>$response');
         String htmlContent = response?.data?["html"];
         var targetFileName = "receipt_${Get.arguments["milestone_id"]}.pdf";
         final generatedPdfFile = await HtmlToPdf.convertFromHtmlContent(
