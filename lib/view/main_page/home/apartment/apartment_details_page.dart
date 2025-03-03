@@ -248,11 +248,9 @@ class _ApartmentDetailsState extends State<ApartmentDetails> {
                                                                 "0"),
                                                         min: 0,
                                                         max: 100,
-                                                        activeColor: ColorRes
-                                                            .mainButtonColor,
-                                                        inactiveColor: Colors
-                                                            .grey
-                                                            .withOpacity(0.6),
+                                                        activeColor: ColorRes.mainButtonColor,
+                                                        inactiveColor: Colors.grey.withValues(alpha: 0.6),
+                                                        // inactiveColor: Colors.grey.withOpacity(0.6),
                                                       ),
                                                     ),
                                                     Positioned(

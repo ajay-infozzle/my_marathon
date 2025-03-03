@@ -15,13 +15,20 @@ class _KycScreenState extends State<KycScreen> {
   Widget build(BuildContext context) {
     return PopScope(
       canPop: !Get.find<AppHolder>().isOpenFromNotification,
-      onPopInvoked: (didPop) {
+      onPopInvokedWithResult: (didPop, result) {
         if(Get.find<AppHolder>().isOpenFromNotification){
           Get.find<AppHolder>().isOpenFromNotification = false;
           Get.find<AppHolder>().screenOpenViaNotification = "";
           Get.offAll(() => const MainPage());
         }
       },
+      // onPopInvoked: (didPop) {
+      //   if(Get.find<AppHolder>().isOpenFromNotification){
+      //     Get.find<AppHolder>().isOpenFromNotification = false;
+      //     Get.find<AppHolder>().screenOpenViaNotification = "";
+      //     Get.offAll(() => const MainPage());
+      //   }
+      // },
       child: Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,
