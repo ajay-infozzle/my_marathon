@@ -2,8 +2,8 @@
 
 This project was built using the following versions:
 
-- **Flutter**: 3.22.3
-- **Dart**: 3.4.4
+- **Flutter**: 3.29.0 
+- **Dart**: 3.7.0
 
 
 
