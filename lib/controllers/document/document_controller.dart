@@ -36,6 +36,7 @@ class DocumentController extends BaseController {
   MessageUseCase messageUseCase;
   MessageData? messageData;
   bool isLoading = false;
+  String loadingText = "";
   List<String> list = [];
   File? file;
   List openIndex = [];
@@ -70,6 +71,7 @@ class DocumentController extends BaseController {
   }
 
   void getApartmentDetail(String id) {
+    log("apt->$id, cust_id->${Get.find<AppHolder>().custId}", name: "getApartmentDetail on document_controller");
     Map<String, dynamic> request = {
       "cust_id": Get.find<AppHolder>().custId,
       "apartment_id": id
@@ -78,8 +80,8 @@ class DocumentController extends BaseController {
       "apikey": Api.apiKey,
       "action": "documents_get"
     };
-    log('params ---------->>>>>>>> $params');
-    log('request ---------->>>>>>>> ${Get.find<AppHolder>().localDate}');
+    log('params ---------->>>>>>>> $params', name: "getApartmentDetail on document_controller");
+    log('request ---------->>>>>>>> ${Get.find<AppHolder>().localDate}', name: "getApartmentDetail on document_controller");
     int diff = 0;
     if (Get.find<AppHolder>().localDate != "") {
       var startTime = DateTime.parse(Get.find<AppHolder>().localDate ?? "");
@@ -111,9 +113,11 @@ class DocumentController extends BaseController {
     } else {
       isLoading = true;
       update();
-      log('documentData====>>>>${Get.find<AppHolder>().documentData!}');
-      responses = DocumentsResponse.fromJson(
-          jsonDecode(Get.find<AppHolder>().documentData!));
+      log('documentData====>>>>${Get.find<AppHolder>().documentData!}', name: "getApartmentDetail on document_controller");
+      responses = DocumentsResponse.fromJson(jsonDecode(Get.find<AppHolder>().documentData!));
+      responses?.data?.receipts?.forEach((k, v) {
+        list.add(k.toString());
+      });
       isLoading = false;
       update();
     }
@@ -162,6 +166,7 @@ class DocumentController extends BaseController {
         .listen((event) {
       event.when(loading: () {
         isLoading = true;
+        loadingText = "\nPlease wait file uploading in progress...";
         update();
       }, content: (response) async {
         postDocumentResponse = response;
@@ -175,6 +180,7 @@ class DocumentController extends BaseController {
     })
       ..onDone(() async {
         isLoading = false;
+        loadingText = "";
         update();
       })
       ..addTo(subscribe);
@@ -193,6 +199,7 @@ class DocumentController extends BaseController {
     messageUseCase.invoke(params, request).listen((event) {
       event.when(loading: () {
         isLoading = true;
+        loadingText = "Request received\nThe statement may take upto 1 minute to download";
         update();
       }, content: (response) async {
         final appStorage = await getApplicationDocumentsDirectory();
@@ -224,6 +231,7 @@ class DocumentController extends BaseController {
     })
       ..onDone(() async {
         isLoading = false;
+        loadingText = "";
         update();
       })
       ..addTo(subscribe);

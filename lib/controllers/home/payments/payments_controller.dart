@@ -22,6 +22,7 @@ class PaymentsController extends BaseController {
   MessageData? messageData;
   bool loadMore = true;
   bool isLoading = false;
+  String loadingText = "";
   int l = 0;
 
   List openIndex = [];
@@ -116,11 +117,12 @@ class PaymentsController extends BaseController {
     messageUseCase.invoke(params, request).listen((event) {
       event.when(loading: () {
         isLoading = true;
+        loadingText = "Please wait download in progress...";
         update();
       }, content: (response) async {
         final appStorage = await getApplicationDocumentsDirectory();
         //var targetPath = Platform.isIOS ? "/storage/emulated/0/Download/" : appStorage.path;
-        log('targetPath==========>>>>>${appStorage.path}');
+        log('targetPath==========>>>>>${appStorage.path}', name: "statement_pdf on payments_controller");
         messageData = response;
         String htmlContent = response?.data?["html"];
         var targetFileName = "statement_marathon.pdf";
@@ -146,6 +148,7 @@ class PaymentsController extends BaseController {
     })
       ..onDone(() async {
         isLoading = false;
+        loadingText = "";
         update();
       })
       ..addTo(subscribe);

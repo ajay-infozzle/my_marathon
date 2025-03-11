@@ -22,8 +22,20 @@ class PaymentsPage extends StatelessWidget {
         builder: (controller) {
           return Scaffold(
             body: controller.isLoading
-                ? const Center(
-                    child: CircularProgressIndicator(),
+                ? Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      CircularProgressIndicator(),
+                      controller.loadingText != "" ? Container(
+                        width: double.maxFinite,
+                        margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                        child: Text(
+                          controller.loadingText,
+                          textAlign: TextAlign.center,
+                        ),
+                      ) : SizedBox()
+                    ],
                   )
                 : SingleChildScrollView(
                     child: Column(
