@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:dio/dio.dart' as d;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:html_to_pdf_plus/html_to_pdf_plus.dart';
@@ -155,8 +156,9 @@ class ApartmentController extends BaseController {
           apartmentDetailsResponse = response;
           log('apartmentDetailsResponse==========>>>>>$apartmentDetailsResponse');
           final projectName = apartmentDetailsResponse
-                  ?.data?.apartmentDetails?.firstOrNull?.projectName ??
-              '';
+                  ?.data?.apartmentDetails?.firstOrNull?.projectName ?? '';
+          Get.find<AppHolder>().subProjectName = apartmentDetailsResponse?.data?.apartmentDetails?.firstOrNull?.subProjectname ?? '';
+
           AnalyticsService.instance.onProjectName(projectName: projectName);
 
           // for (int i = 0; i < apartmentDetailsResponse!.data!.milestones!.length; i++) {
@@ -205,6 +207,8 @@ class ApartmentController extends BaseController {
       })
         ..onDone(() async {
           isLoading = false;
+
+          getRmDetails();
           update();
         })
         ..addTo(subscribe);
@@ -216,8 +220,8 @@ class ApartmentController extends BaseController {
           jsonDecode(Get.find<AppHolder>().homeData!));
 
       final projectName = apartmentDetailsResponse
-              ?.data?.apartmentDetails?.firstOrNull?.projectName ??
-          '';
+              ?.data?.apartmentDetails?.firstOrNull?.projectName ?? '';
+      Get.find<AppHolder>().subProjectName = apartmentDetailsResponse?.data?.apartmentDetails?.firstOrNull?.subProjectname ?? '';
 
       AnalyticsService.instance.onProjectName(projectName: projectName);
 
@@ -261,7 +265,35 @@ class ApartmentController extends BaseController {
         }
       }
       isLoading = false;
+
+      getRmDetails();
       update();
+    }
+  }
+
+  void getRmDetails() async{
+    d.FormData request = d.FormData.fromMap({
+      "subproject": Get.find<AppHolder>().subProjectName,
+    });
+
+    // Map<String, dynamic> request = {
+    //   "subproject": Get.find<AppHolder>().subProjectName,
+    // };
+    
+    try {
+      d.Dio dio = d.Dio();
+      var response = await dio.post(Api.getRmDetailApi, data: request);
+      log("rmDetails==========>>>>> $response", name: "getRmDetails");
+      
+      var data = response.data["data"];
+      Get.find<AppHolder>().rmManagerName = data['name'];
+      Get.find<AppHolder>().rmManagerNumber = data['mobile'];
+      Get.find<AppHolder>().rmManagerEmail = data['email'];
+    } catch (e) {
+      log("rmDetails==========>>>>> $e", name: "getRmDetails");
+      Get.find<AppHolder>().rmManagerName = '';
+      Get.find<AppHolder>().rmManagerNumber = '';
+      Get.find<AppHolder>().rmManagerEmail = '';
     }
   }
 

@@ -24,33 +24,36 @@ class DocumentsPage extends StatelessWidget {
           return Scaffold(
             resizeToAvoidBottomInset: false,
             body: controller.isLoading
-                ? Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      CircularProgressIndicator(),
-                      controller.loadingText != "" ? Container(
-                        width: double.maxFinite,
-                        margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                        child: Column(
-                          children: [
-                            Text(
-                              controller.loadingText.split("\n").first,
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16
+                ? SizedBox(
+                  width: double.maxFinite,
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        CircularProgressIndicator(),
+                        controller.loadingText != "" ? Container(
+                          width: double.maxFinite,
+                          margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                          child: Column(
+                            children: [
+                              Text(
+                                controller.loadingText.split("\n").first,
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16
+                                ),
                               ),
-                            ),
-                            Text(
-                              controller.loadingText.split("\n").last,
-                              textAlign: TextAlign.center,
-                            )
-                          ],
-                        ),
-                      ) : SizedBox()
-                    ],
-                  )
+                              Text(
+                                controller.loadingText.split("\n").last,
+                                textAlign: TextAlign.center,
+                              )
+                            ],
+                          ),
+                        ) : SizedBox()
+                      ],
+                    ),
+                )
                 : SingleChildScrollView(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,

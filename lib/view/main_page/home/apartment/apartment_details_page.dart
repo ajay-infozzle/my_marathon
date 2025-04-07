@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:marathon/controllers/home/apartment_details_controller/apartment_controller.dart';
+import 'package:marathon/data/storage/app/app_holder.dart';
 import 'package:marathon/data/tools/extensions/num_ext.dart';
 import 'package:marathon/data/tools/toast/custom_snackbar.dart';
 import 'package:marathon/view/widgets/custom_general_button.dart';
@@ -95,6 +96,20 @@ class _ApartmentDetailsState extends State<ApartmentDetails> {
                                 color: ColorRes.unPaidColor),
                           ),
                         ),
+
+                        SizedBox(height: h * 0.01),
+                         Padding(
+                          padding:EdgeInsets.symmetric(horizontal: Dimens.padding),
+                          child: Text(
+                            textAlign: TextAlign.center,
+                            "Welcome ${Get.find<AppHolder>().name}!",
+                            style: kRegularThemeTextStyle.copyWith(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w600,
+                                color: ColorRes.black),
+                          ),
+                        ),
+
                         SizedBox(height: h * 0.01),
                         Container(
                           margin: EdgeInsets.all(Dimens.padding),

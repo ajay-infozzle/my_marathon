@@ -61,6 +61,8 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
       ),
     );
     _controller2?.forward();
+
+    _navigateToNextPage(); //Todo : have to remove
   }
 
   Future<void> _checkVersionAndNavigate() async {

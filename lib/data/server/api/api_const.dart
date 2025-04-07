@@ -18,6 +18,8 @@ class Api {
   static const nameChangeFormApi ='$baseUrl/api/getinfoformobileapp';
 
 
+  static const getRmDetailApi ='$baseUrl/api/getinfoformobileapp?apikey=$apiKey&action=getrminfo';
+
   static const nameDeletionFormDownloadUrl ='https://crm.marathon.in/pdf/New_Name_Deletion_Letter.docx';
   static const nameAdditionFormDownloadUrl ='https://crm.marathon.in/pdf/New_Revised_Name_Addition_Letter.docx';
   static const nameInterchangeFormDownloadUrl = 'https://crm.marathon.in/pdf/New_Revised_Name_Interchange_Letter.docx';

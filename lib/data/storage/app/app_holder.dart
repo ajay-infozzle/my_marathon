@@ -25,6 +25,11 @@ abstract class AppHolder {
   String? projectData;
   String? localDate;
   String? fCMToken;
+  late String subProjectName;
+
+  late String rmManagerName;
+  late String rmManagerNumber;
+  late String rmManagerEmail;
 
   late bool isOpenFromNotification;
   late String? screenOpenViaNotification ;

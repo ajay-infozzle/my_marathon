@@ -3,8 +3,10 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:get/get.dart';
+import 'package:marathon/config/helpers.dart';
 import 'package:marathon/controllers/support_controller/support_controller.dart';
 import 'package:marathon/data/server/api/api_const.dart';
+import 'package:marathon/data/storage/app/app_holder.dart';
 import 'package:marathon/data/tools/extensions/num_ext.dart';
 import 'package:marathon/view/widgets/custom_general_button.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -61,7 +63,6 @@ class SupportPage extends StatelessWidget {
                         ),
                         // 20.ph,
 
-                        //~ added by ajay
                         servicesDropdownSection(context, controller),
                         10.ph,
 
@@ -81,14 +82,13 @@ class SupportPage extends StatelessWidget {
                         //         )
                         //       : const Icon(Icons.arrow_forward_ios),
                         // ),
-                        controller.openIndex.contains(1) ? generalServiceForm(context, controller) : const SizedBox(),
+                        controller.openIndex.contains(1) ? generalServiceForm(context, controller, showBottomLine: false) : const SizedBox(),
 
-                        controller.openIndex.contains(2) ? complaintForm(context, controller) : const SizedBox(),
+                        controller.openIndex.contains(2) ? complaintForm(context, controller, showBottomLine: false) : const SizedBox(),
 
-                        controller.openIndex.contains(3) ? flatVisitServiceForm(context, controller) : const SizedBox(),
+                        controller.openIndex.contains(3) ? flatVisitServiceForm(context, controller, showBottomLine: false) : const SizedBox(),
 
-                        controller.openIndex.contains(4) ? nameChangeServiceForm(context, controller) : const SizedBox(),
-                        //~ added by ajay
+                        controller.openIndex.contains(4) ? nameChangeServiceForm(context, controller, showBottomLine: false) : const SizedBox(),
 
                         /*Padding(
                           padding:
@@ -101,7 +101,16 @@ class SupportPage extends StatelessWidget {
                         10.ph,
                         generalServiceForm(context, controller), **/
                         
+
                         SizedBox(height: h * 0.01),
+
+                        SizedBox(
+                          width: double.maxFinite,
+                          child: rmContainer(),
+                        ),
+
+                        SizedBox(height: h * 0.05),
+                        Divider(),
                         Padding(padding:EdgeInsets.symmetric(horizontal: Dimens.padding),
                           child: Text(
                             textAlign: TextAlign.start,
@@ -973,6 +982,125 @@ class SupportPage extends StatelessWidget {
           20.ph,
         ],
       ),
+    );
+  }
+  
+  rmContainer() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          padding: EdgeInsets.symmetric(vertical: 20),
+          color: ColorRes.white,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: Dimens.padding),
+                child: Text(
+                  textAlign: TextAlign.start,
+                  "Contact your Relationship Manager",
+                  style: kRegularThemeTextStyle.copyWith(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                      color: ColorRes.mainButtonColor),
+                ),
+              ),
+              10.ph,
+              Padding(
+                padding:EdgeInsets.symmetric(horizontal: Dimens.padding),
+                child: Text(
+                  textAlign: TextAlign.start,
+                  Get.find<AppHolder>().rmManagerName,
+                  style: kRegularThemeTextStyle.copyWith(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      color: ColorRes.mainTextColor),
+                ),
+              ),
+              10.ph,
+              GestureDetector(
+                onTap: () => launchPhone(Get.find<AppHolder>().rmManagerNumber),
+                child: Padding(
+                  padding:EdgeInsets.symmetric(horizontal: Dimens.padding),
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.call,
+                        color: ColorRes.mainButtonColor,
+                        size: 20,
+                      ),
+                      10.pw,
+                      Text(
+                        textAlign: TextAlign.start,
+                        Get.find<AppHolder>().rmManagerNumber,
+                        style: kRegularThemeTextStyle.copyWith(
+                            fontSize: 15,
+                            fontWeight: FontWeight.w600,
+                            color: ColorRes.mainTextColor),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+
+              10.ph,
+
+              GestureDetector(
+                onTap: () => launchEmail(Get.find<AppHolder>().rmManagerEmail.toLowerCase()),
+                child: Padding(
+                  padding:EdgeInsets.symmetric(horizontal: Dimens.padding),
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.email,
+                        color: ColorRes.mainButtonColor,
+                        size: 20,
+                      ),
+                      10.pw,
+                      Text(
+                        textAlign: TextAlign.start,
+                        Get.find<AppHolder>().rmManagerEmail.toLowerCase(),
+                        style: kRegularThemeTextStyle.copyWith(
+                            fontSize: 15,
+                            fontWeight: FontWeight.w600,
+                            color: ColorRes.mainTextColor),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+
+        20.ph,
+        Padding(
+          padding:EdgeInsets.symmetric(horizontal: Dimens.padding),
+          child: Text(
+            textAlign: TextAlign.start,
+            "For any escalations or feedback please write to",
+            style: kRegularThemeTextStyle.copyWith(
+                fontSize: 14,
+                fontStyle: FontStyle.italic,
+                fontWeight: FontWeight.w500,
+                color: ColorRes.mainTextColor),
+          ),
+        ),
+        // 5.ph,
+        Padding(
+          padding:EdgeInsets.symmetric(horizontal: Dimens.padding),
+          child: SelectableText(
+            textAlign: TextAlign.start,
+            "customercare@marathonreality.com",
+            style: kRegularThemeTextStyle.copyWith(
+                fontSize: 14,
+                fontStyle: FontStyle.italic,
+                fontWeight: FontWeight.w500,
+                color: ColorRes.mainButtonColor),
+          ),
+        ),
+      ],
     );
   }
 
