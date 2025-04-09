@@ -62,7 +62,7 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
     );
     _controller2?.forward();
 
-    _navigateToNextPage(); //Todo : have to remove
+    // _navigateToNextPage(); //Todo : have to remove
   }
 
   Future<void> _checkVersionAndNavigate() async {
@@ -168,7 +168,7 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
       if(!Get.find<AppHolder>().isOpenFromNotification){
         Get.offAll(
         () => Get.find<AppHolder>().custId != 0
-            ? const MainPage()
+            ? const MainPage(isSignIn: true,)
             : const WelcomePage());
       }
     });

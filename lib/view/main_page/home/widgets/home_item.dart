@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:marathon/controllers/mainController/main_controller.dart';
@@ -30,7 +32,7 @@ class HomeItem extends StatelessWidget {
     return IntrinsicHeight(
       child: Container(
         margin: EdgeInsets.all(Dimens.padding),
-        width: double.infinity,
+        width: double.maxFinite,
         decoration: BoxDecoration(
             boxShadow: const [
               BoxShadow(
@@ -43,56 +45,61 @@ class HomeItem extends StatelessWidget {
             color: ColorRes.listItemColors,
             borderRadius: BorderRadius.circular(30)),
         child: Padding(
-          padding: const EdgeInsets.all(22.0),
+          padding: const EdgeInsets.all(20.0),
           child: Row(
             children: [
               NetImageView(imageUrl: img, name: ''),
               16.pw,
-              Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    textAlign: TextAlign.center,
-                    project,
-                    style: kRegularThemeTextStyle.copyWith(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w600,
-                        color: ColorRes.mainTextColor),
-                  ),
-                  3.ph,
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.5,
-                    child: Text(
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
                       textAlign: TextAlign.start,
-                      building,
-                      maxLines: 3,
+                      project,
+                      style: kRegularThemeTextStyle.copyWith(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w600,
+                          color: ColorRes.mainTextColor),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                    ),
+                    3.ph,
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.5,
+                      child: Text(
+                        textAlign: TextAlign.start,
+                        building,
+                        maxLines: 3,
+                        style: kRegularThemeTextStyle.copyWith(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600,
+                            color: ColorRes.mainTextColor),
+                      ),
+                    ),
+                    3.ph,
+                    Text(
+                      textAlign: TextAlign.center,
+                      title,
                       style: kRegularThemeTextStyle.copyWith(
                           fontSize: 18,
                           fontWeight: FontWeight.w600,
                           color: ColorRes.mainTextColor),
                     ),
-                  ),
-                  3.ph,
-                  Text(
-                    textAlign: TextAlign.center,
-                    title,
-                    style: kRegularThemeTextStyle.copyWith(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w600,
-                        color: ColorRes.mainTextColor),
-                  ),
-                  3.ph,
-                  CustomGeneralButton(
-                    onTab: () {
-                      Get.find<MainController>().apartmentId = id;
-                      Get.find<MainController>().changePages(id);
-                      Get.find<AppHolder>().localDate = "";
-                    },
-                    title: 'View',
-                   // verticalPadding: 3,
-                  )
-                ],
+                    3.ph,
+                    CustomGeneralButton(
+                      onTab: () {
+                        log("clicked on view button--> $id");
+                        Get.find<MainController>().apartmentId = id;
+                        Get.find<MainController>().changePages(id);
+                        Get.find<AppHolder>().localDate = "";
+                      },
+                      title: 'View',
+                     // verticalPadding: 3,
+                    )
+                  ],
+                ),
               )
             ],
           ),

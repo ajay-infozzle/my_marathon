@@ -45,7 +45,10 @@ class HomeController extends BaseController {
         length = apartmentsList?.data?.apartments?.length ?? 0;
         Get.find<AppHolder>().isSwitch =
             apartmentsList?.data?.apartments?.length == 1 ? false : true;
+
+        log('length of apartmentsList==========>>>>>$length');
         if (length == 1) {
+          log('going to change pages ==========>>>>>');
           Get.find<MainController>().changePages(
               apartmentsList?.data?.apartments?.first.apartmentId.toString() ??
                   "");
