@@ -15,6 +15,7 @@ import 'package:marathon/domain/entities/message/message.dart';
 import 'package:marathon/domain/entities/support/faq_data_response.dart';
 import 'package:marathon/domain/use_cases/message_/send_message_use_case.dart';
 import 'package:marathon/domain/use_cases/support_use_case/get_faqdata_use_case.dart';
+import 'package:phone_form_field/phone_form_field.dart';
 import 'package:rxdart/rxdart.dart';
 import '../../data/server/api/api_const.dart';
 import '../../data/tools/toast/custom_snackbar.dart';
@@ -32,19 +33,27 @@ class SupportController extends BaseController {
   TextEditingController complainSubjectController = TextEditingController();
   TextEditingController complainMessageController = TextEditingController();
 
+  TextEditingController emailChangeController = TextEditingController();
+  PhoneController mobileChangeController = PhoneController(initialValue: const PhoneNumber(isoCode: IsoCode.IN, nsn: ''));
+  
+  // TextEditingController otpController = TextEditingController();
+  String otp = '';
+
   TextEditingController visitDateCont = TextEditingController();
   TextEditingController visitTimeCont = TextEditingController();
   TextEditingController visitPurposeCont = TextEditingController();
 
   TextEditingController nameChangeCont = TextEditingController();
 
-
+  bool showOtpField = false;
   String? selectService = "";
   List<String> services = [
     "General Service Request",
     "Complaint",
     "Flat Visit Request",
-    "Name Change/Deletion/Updation Request"
+    "Name Change/Deletion/Updation Request",
+    "Email ID Change Request",
+    "Mobile Number Change Request"
   ];
 
   GetFaqDataUseCase getFaqDataUseCase;
@@ -75,6 +84,8 @@ class SupportController extends BaseController {
 
     openIndex.clear();
     openIndex.add(index);
+
+    showOtpField = false;
     update();
   }
 
@@ -487,6 +498,234 @@ class SupportController extends BaseController {
       customSnackBar("Failed to upload name change request form. Please try again.");
     } catch (e) {
       log('Unexpected error to upload complaint form: $e');
+      customSnackBar("Please try again.");
+    } finally {
+      isLoading = false;
+      update();
+    }
+  }
+  
+  bool isValidEmail(String email) {
+    return RegExp(r"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$").hasMatch(email);
+  }
+
+  void sendOtp({bool isEmail = false, bool isMobile = false}) async{
+    if (isEmail && emailChangeController.text.isEmpty) {
+      customSnackBar("Please enter new email");
+      return;
+    }
+
+    if (isEmail && !isValidEmail(emailChangeController.text.trim())) {
+      customSnackBar("Please enter a valid email address!");
+      return;
+    }
+
+    if (isMobile && mobileChangeController.value.nsn.isEmpty) {
+      customSnackBar("Please enter new mobile number !");
+      return;
+    }
+    
+    String custID = Get.find<AppHolder>().custId.toString() ;
+    Map<String, dynamic> request = 
+    isEmail ?
+    {
+      "email": emailChangeController.text.trim(),
+      "cust_id": custID
+    }
+    :
+    {
+      "mobile": mobileChangeController.value.nsn.trim(),
+      "cust_id": custID
+    };
+
+    Map<String, dynamic> params = {
+      "apikey": Api.apiKey,
+      "action": "verification_otp_get" 
+    };
+
+    AnalyticsService.instance.onContactFormSubmission();
+    log('requestFile==========>>>>>$request');
+
+
+    try {
+      isLoading = true;
+      update();
+
+      Dio dio = Dio();
+      var response = await dio.post(
+        isEmail ? Api.emailChangeFormApi : Api.mobileChangeFormApi,
+        data: FormData.fromMap(request),
+        queryParameters: params
+      );
+      log("('send otp response=======>>>: ${response.data}'");
+      
+      if(response.statusCode == 200){
+        if(response.data?['status'] == "success"){
+          customSnackBar('OTP sent successfully') ;
+        }
+
+        if(response.data?['status'] == "error"){
+          customSnackBar(response.data?['message'] ?? "Something went wrong !") ;
+        }
+      }else {
+        if(response.data?['status'] == "error"){
+          customSnackBar(response.data?['message'] ?? "Something went wrong !") ;
+        }
+      }
+
+      isLoading = false;
+      showOtpField = true;
+      update();
+    } 
+    on DioException catch (e) {
+      log('Failed email/mobile change form =======>>>: $e');
+      customSnackBar("Failed, Please try again.");
+    } catch (e) {
+      log('Unexpected error to email/mobile chnage request form: $e');
+      customSnackBar("Please try again.");
+    } finally {
+      isLoading = false;
+      update();
+    }
+  }
+
+  void verifyOtp({bool isEmail = false, bool isMobile = false}) async{
+    log("current entered otp --> $otp");
+    log("emailChangeController --> ${emailChangeController.text}");
+    log("mobileChangeController --> ${mobileChangeController.value.countryCode}${mobileChangeController.value.nsn}");
+    
+    String custID = Get.find<AppHolder>().custId.toString() ;
+    Map<String, dynamic> request = 
+    isEmail ?
+    {
+      "cust_id": custID,
+      "otp":  otp.trim()
+    }
+    :
+    {
+      "cust_id": custID,
+      "otp": otp.trim()
+    };
+
+    Map<String, dynamic> params = {
+      "apikey": Api.apiKey,
+      "action": "verification_otp_post" 
+    };
+
+    AnalyticsService.instance.onContactFormSubmission();
+    log('requestFile==========>>>>>$request');
+
+
+    try {
+      isLoading = true;
+      update();
+
+      Dio dio = Dio();
+      var response = await dio.post(
+        Api.verifyOtpApi,
+        data: FormData.fromMap(request),
+        queryParameters: params
+      );
+      log("('otp verification form response=======>>>: ${response.data}'");
+      
+      if(response.statusCode == 200){
+        if(response.data?['status'] == "success"){
+          // customSnackBar('OTP Verified') ;
+          postOtpverification(
+            custId: custID,
+            isEmail: isEmail,
+            isMobile: isMobile,
+            email: emailChangeController.text,
+            mobile: mobileChangeController.value.countryCode+mobileChangeController.value.nsn
+          );
+        }
+
+        if(response.data?['status'] == "error"){
+          customSnackBar(response.data?['message'] ?? "Something went wrong !") ;
+        }
+      }else {
+        if(response.data?['status'] == "error"){
+          customSnackBar(response.data?['message'] ?? "Something went wrong !") ;
+        }
+      }
+
+      // isLoading = false;
+      // showOtpField = false;
+      // emailChangeController.clear();
+      // mobileChangeController.value = const PhoneNumber(isoCode: IsoCode.IN, nsn: '');
+      // otpController.clear();
+      // update();
+    } 
+    on DioException catch (e) {
+      log('Failed otp verification =======>>>: $e');
+      customSnackBar("Failed, Please try again.");
+    } catch (e) {
+      log('Unexpected error to verify otp : $e');
+      customSnackBar("Please try again.");
+    } finally {
+      // isLoading = false;
+      // update();
+    }
+  }
+
+  void postOtpverification({bool isEmail = false, bool isMobile = false, String email = '', String mobile = '', required String custId}) async{
+  
+    Map<String, dynamic> request = 
+    isMobile ?
+    {
+      "new_mobile": mobile,
+      "cust_id" : custId
+    }
+    :
+    {
+      "new_email": email,
+      "cust_id" : custId
+    };
+
+    Map<String, dynamic> params = {
+      "apikey": Api.apiKey,
+      "action": isEmail ? "email_change_post" : "mobile_change_post" 
+    };
+
+    AnalyticsService.instance.onContactFormSubmission();
+    log('requestFile==========>>>>>$request');
+
+
+    try {
+      Dio dio = Dio();
+      var response = await dio.post(
+        Api.verifyOtpApi,
+        data: FormData.fromMap(request),
+        queryParameters: params
+      );
+      log("('contact change api response=======>>>: ${response.data}'");
+      
+      if(response.statusCode == 200){
+        if(response.data?['status'] == "success"){
+          customSnackBar(isEmail ? "Email Changed Successfuly" : "Mobile Number Changed Successfuly") ;
+        }
+
+        if(response.data?['status'] == "error"){
+          customSnackBar(response.data?['message'] ?? "Something went wrong !") ;
+        }
+      }else {
+        if(response.data?['status'] == "error"){
+          customSnackBar(response.data?['message'] ?? "Something went wrong !") ;
+        }
+      }
+
+      isLoading = false;
+      showOtpField = false;
+      emailChangeController.clear();
+      mobileChangeController.value = const PhoneNumber(isoCode: IsoCode.IN, nsn: '');
+      // otpController.clear();
+      update();
+    } 
+    on DioException catch (e) {
+      log('Failed to change contact =======>>>: $e');
+      customSnackBar("Failed, Please try again.");
+    } catch (e) {
+      log('Unexpected error to change contact : $e');
       customSnackBar("Please try again.");
     } finally {
       isLoading = false;

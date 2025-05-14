@@ -9,6 +9,8 @@ import 'package:marathon/data/server/api/api_const.dart';
 import 'package:marathon/data/storage/app/app_holder.dart';
 import 'package:marathon/data/tools/extensions/num_ext.dart';
 import 'package:marathon/view/widgets/custom_general_button.dart';
+import 'package:phone_form_field/phone_form_field.dart';
+import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../data/tools/constants/app_assets.dart';
 import '../../../data/tools/decoration/dimens.dart';
@@ -89,6 +91,15 @@ class SupportPage extends StatelessWidget {
                         controller.openIndex.contains(3) ? flatVisitServiceForm(context, controller, showBottomLine: false) : const SizedBox(),
 
                         controller.openIndex.contains(4) ? nameChangeServiceForm(context, controller, showBottomLine: false) : const SizedBox(),
+
+                        if(!controller.showOtpField)
+                        controller.openIndex.contains(5) ? emailChangeServiceForm(context, controller, showBottomLine: false) : const SizedBox(),
+
+                        if(!controller.showOtpField)
+                        controller.openIndex.contains(6) ? mobileChangeServiceForm(context, controller, showBottomLine: false) : const SizedBox(),
+
+                        if(controller.showOtpField && (controller.openIndex.contains(5) || controller.openIndex.contains(6)))
+                        otpForm(context, controller, showBottomLine: false),
 
                         /*Padding(
                           padding:
@@ -317,7 +328,6 @@ class SupportPage extends StatelessWidget {
                     controller.selectService = value!;
                     int selectedServices = controller.services.indexOf(value);
                     controller.openTab(selectedServices+1);
-
                     controller.update();
                   },
                 ),
@@ -974,6 +984,288 @@ class SupportPage extends StatelessWidget {
             child: CustomGeneralButton(
               onTab: () {
                 controller.sendNameChangeForm();
+              },
+              title: "Submit",
+            ),
+          ),
+      
+          20.ph,
+        ],
+      ),
+    );
+  }
+
+  emailChangeServiceForm(BuildContext context, SupportController controller, {required bool showBottomLine}) {
+    return Container(
+      decoration: BoxDecoration(
+        border: Border(
+          bottom: BorderSide(
+            color: showBottomLine ? ColorRes.greyColor : Colors.transparent, 
+            width: showBottomLine ? 2.0 : 0, 
+          ),
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            margin: const EdgeInsets.symmetric(horizontal: 16),
+            alignment: Alignment.center,
+            height: MediaQuery.of(context).size.height * 0.055,
+            width: double.infinity,
+            decoration: BoxDecoration(
+              boxShadow: const [
+                BoxShadow(
+                  color: ColorRes.greyD3,
+                  spreadRadius: 1,
+                  blurRadius: 0,
+                  offset: Offset(0.5, 1.5), 
+                ),
+              ],
+              color: ColorRes.textFieldColor,
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: ClipRRect(
+              borderRadius:BorderRadius.circular(Dimens.buttonRadius),
+              child: Padding(padding:const EdgeInsets.only(right: 15, left: 15),
+                child: Row(
+                  children: [
+                    Flexible(
+                      child: TextFormField(
+                        onTap: () {
+                          // FocusScope.of(context).unfocus();
+                        },
+                        style: kRegularThemeTextStyle,
+                        controller:controller.emailChangeController,
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          hintText: "New Email ID",
+                          hintStyle:kRegularTextStyle.copyWith(
+                            fontSize: 16,
+                            color: ColorRes.hintColor,
+                            fontWeight:FontWeight.w400
+                          )
+                        ),
+                        textInputAction: TextInputAction.done,
+                        keyboardType: TextInputType.emailAddress,
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            ),
+          ),
+        
+          30.ph,
+          Padding(
+            padding:EdgeInsets.symmetric(horizontal: Dimens.padding),
+            child: CustomGeneralButton(
+              onTab: () {
+                controller.sendOtp(isEmail: true); 
+              },
+              title: "Submit",
+            ),
+          ),
+      
+          20.ph,
+        ],
+      ),
+    );
+  }
+  
+  mobileChangeServiceForm(BuildContext context, SupportController controller, {required bool showBottomLine}) {
+    return Container(
+      decoration: BoxDecoration(
+        border: Border(
+          bottom: BorderSide(
+            color: showBottomLine ? ColorRes.greyColor : Colors.transparent, 
+            width: showBottomLine ? 2.0 : 0, 
+          ),
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            margin: const EdgeInsets.symmetric(horizontal: 16),
+            alignment: Alignment.center,
+            height: MediaQuery.of(context).size.height * 0.055,
+            width: double.infinity,
+            decoration: BoxDecoration(
+              boxShadow: const [
+                BoxShadow(
+                  color: ColorRes.greyD3,
+                  spreadRadius: 1,
+                  blurRadius: 0,
+                  offset: Offset(0.5, 1.5), 
+                ),
+              ],
+              color: ColorRes.textFieldColor,
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: ClipRRect(
+              borderRadius:BorderRadius.circular(Dimens.buttonRadius),
+              child: Padding(padding:const EdgeInsets.only(right: 15, left: 15),
+                child: Row(
+                  children: [
+                    Flexible(
+                      child: PhoneFormField(
+                        controller: controller.mobileChangeController,
+                        isCountryButtonPersistent: true,
+                        isCountrySelectionEnabled: true,
+                        autofillHints: const [AutofillHints.telephoneNumber],
+                        style: kRegularThemeTextStyle,
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          hintText: "New Mobile Number",
+                          hintStyle:kRegularTextStyle.copyWith(
+                            fontSize: 16,
+                            color: ColorRes.hintColor,
+                            fontWeight:FontWeight.w400
+                          )
+                        ),
+                        keyboardType: TextInputType.numberWithOptions(),
+                        textInputAction: TextInputAction.done,
+                        countryButtonStyle: CountryButtonStyle(
+                          showFlag: false,
+                          showIsoCode: false,
+                          showDialCode: true,
+                          showDropdownIcon: false,
+                          padding: const EdgeInsets.only(right: 10, left: 10),
+                          textStyle: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16
+                          ),
+                        ),
+                        textAlignVertical: TextAlignVertical.center,
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        cursorColor: Theme.of(context).colorScheme.primary,
+                        cursorWidth: 1,
+                        onChanged: (value) {
+                          // controller.newMobileNumber = value.countryCode + value.nsn ;
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            ),
+          ),
+        
+          30.ph,
+          Padding(
+            padding:EdgeInsets.symmetric(horizontal: Dimens.padding),
+            child: CustomGeneralButton(
+              onTab: () {
+                controller.sendOtp(isMobile: true); 
+              },
+              title: "Submit",
+            ),
+          ),
+      
+          20.ph,
+        ],
+      ),
+    );
+  }
+
+  otpForm(BuildContext context, SupportController controller, {required bool showBottomLine}) {
+    return Container(
+      decoration: BoxDecoration(
+        border: Border(
+          bottom: BorderSide(
+            color: showBottomLine ? ColorRes.greyColor : Colors.transparent, 
+            width: showBottomLine ? 2.0 : 0, 
+          ),
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: Dimens.padding),
+            child: Text(
+              textAlign: TextAlign.start,
+              controller.openIndex.contains(6) ? "Enter the OTP sent to your mobile number" : "Enter the OTP sent to your Email Address",
+              style: kRegularThemeTextStyle.copyWith(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                  color: ColorRes.mainButtonColor),
+            ),
+          ),
+          10.ph,
+
+          Padding(padding:EdgeInsets.symmetric(horizontal: Dimens.padding),
+            child: Row(
+              children: [
+                Flexible(
+                  child: PinCodeTextField(
+                    appContext: context,
+                    // controller: controller.otpController,
+                    pastedTextStyle: const TextStyle(
+                      color: ColorRes.white,
+                    ),
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    separatorBuilder: (context, index) => SizedBox(width: 12,),
+                    length: 4,
+                    obscureText: false,
+                    obscuringCharacter: '*',
+                    blinkWhenObscuring: true,
+                    animationType: AnimationType.fade,
+                    pinTheme: PinTheme(
+                      activeColor: ColorRes.greyD9,
+                      disabledColor: Colors.black,
+                      selectedColor: Colors.black,
+                      shape: PinCodeFieldShape.box,
+                      borderWidth: 0.1,
+                      selectedFillColor: ColorRes.white,
+                      disabledBorderWidth: 0.1,
+                      errorBorderColor: ColorRes.black,
+                      borderRadius: BorderRadius.circular(10.12),
+                      fieldHeight: 45,
+                      fieldWidth: 45,
+                      activeFillColor: ColorRes.white,
+                      inactiveColor: ColorRes.greyD9,
+                      inactiveFillColor: ColorRes.white
+                    ),
+                    cursorColor: ColorRes.black,
+                    animationDuration: const Duration(milliseconds: 300),
+                    enableActiveFill: true,
+                    keyboardType: TextInputType.number,
+                    boxShadows: const [
+                      BoxShadow(
+                        offset: Offset(3, 3),
+                        color: Colors.black12,
+                        blurRadius: 1,
+                      )
+                    ],
+                    onCompleted: (v) {
+                      controller.otp = v ;
+                    },
+                    onChanged: (value) {
+                      controller.otp = value ;
+                    },
+                    beforeTextPaste: (text) {
+                      //if you return true then it will show the paste confirmation dialog. Otherwise if false, then nothing will happen.
+                      //but you can show anything you want here, like your pop up saying wrong paste format or etc
+                      return true;
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ),
+        
+          10.ph,
+          Padding(
+            padding:EdgeInsets.symmetric(horizontal: Dimens.padding),
+            child: CustomGeneralButton(
+              onTab: () {
+                controller.verifyOtp(
+                  isEmail: controller.openIndex.contains(5),
+                  isMobile: controller.openIndex.contains(6)
+                );
               },
               title: "Submit",
             ),

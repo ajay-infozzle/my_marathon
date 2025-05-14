@@ -225,10 +225,10 @@ class DrawerTales extends StatelessWidget {
                 style: kRegularTextStyle,
               ),
               const Spacer(),
-              iconButton == true
-                  ? IconButton(
-                      onPressed: () {}, icon: const Icon(Icons.navigate_next))
-                  : const SizedBox(),
+              // iconButton == true
+              //     ? IconButton(
+              //         onPressed: () {}, icon: const Icon(Icons.navigate_next))
+              //     : const SizedBox(),
             ],
           )),
     );
