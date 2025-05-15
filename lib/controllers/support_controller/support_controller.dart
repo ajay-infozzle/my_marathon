@@ -674,11 +674,13 @@ class SupportController extends BaseController {
     isMobile ?
     {
       "new_mobile": mobile,
+      "apartment_id": Get.find<MainController>().apartmentId,
       "cust_id" : custId
     }
     :
     {
       "new_email": email,
+      "apartment_id": Get.find<MainController>().apartmentId,
       "cust_id" : custId
     };
 
