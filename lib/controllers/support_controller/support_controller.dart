@@ -642,10 +642,14 @@ class SupportController extends BaseController {
 
         if(response.data?['status'] == "error"){
           customSnackBar(response.data?['message'] ?? "Something went wrong !") ;
+          isLoading = false;
+          update();
         }
       }else {
         if(response.data?['status'] == "error"){
-          customSnackBar(response.data?['message'] ?? "Something went wrong !") ;
+          customSnackBar(response.data?['message'] ?? "Something went wrong , try again !") ;
+          isLoading = false;
+          update();
         }
       }
 
