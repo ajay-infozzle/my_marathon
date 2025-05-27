@@ -13,6 +13,7 @@ class Api {
   static const getAllProject = '$_baseUrl/marathon-api/v1/all-projects';
   static const getTermsAndCondition ='$_baseUrl/marathon-api/v1/terms-and-conditions';
 
+  static const messageFormApi ='$baseUrl/api/getinfoformobileapp';       
   static const complainFormApi ='$baseUrl/api/getinfoformobileapp';       
   static const flatVisitFormApi ='$baseUrl/api/getinfoformobileapp';
   static const nameChangeFormApi ='$baseUrl/api/getinfoformobileapp';

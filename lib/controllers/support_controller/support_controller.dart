@@ -216,7 +216,7 @@ class SupportController extends BaseController {
     }
   }
 
-  void sentMessage() {
+  void sentMessage() async{
     if (subjectController.text.isEmpty) {
       customSnackBar("Please enter Subject");
       return;
@@ -254,44 +254,78 @@ class SupportController extends BaseController {
 
     AnalyticsService.instance.onContactFormSubmission();
     log('file==========>>>>>$file');
-    log('requestFile==========>>>>>$request');
+    log('sent message request==========>>>>>$request');
 
-    messageUseCase.invoke(
-      params,
-      file,
-      Get.find<AppHolder>().email,
-      messageController.text.toString(),
-      subjectController.text,
-    )
-        .listen((event) {
-      event.when(loading: () {
-        isLoading = true;
-        update();
-      }, content: (response) async {
-        if (response?.status == "success") {
-          customSnackBar(response?.data?['message'].toString());
-          log('response==========>>>>>$response');
-          messageController.text = '';
-          subjectController.text = '';
-          emailController.text = '';
-          file = null;
-        } else {
-          customSnackBar(response?.message.toString());
-        }
-        update();
-      }, error: (error) {
-        customSnackBar("please try again".toString());
-      });
-    })
-      ..onDone(() async {
+
+    try {
+      isLoading = true;
+      update();
+
+      Dio dio = Dio();
+      var response = await dio.post(
+        Api.messageFormApi,
+        data: FormData.fromMap(request), //~ FormData for file uploads
+        queryParameters: params
+      );
+      log("('sent message form response=======>>>: ${response.data}'");
+      
+      if(response.statusCode == 200){
+        customSnackBar(response.data?['data']['message'].toString() ?? 'Form submitted successfully');
         messageController.text = '';
         subjectController.text = '';
         emailController.text = '';
         file = null;
-        isLoading = false;
-        update();
-      })
-      ..addTo(subscribe);
+      }else {
+        customSnackBar(response.data?['data']['message'].toString() ?? 'Submission failed');
+      }
+    } 
+    on DioException catch (e) {
+      log('Failed to upload message form =======>>>: $e');
+      customSnackBar("Failed to upload message form. Please try again.");
+    } catch (e) {
+      log('Unexpected error to upload message form: $e');
+      customSnackBar("Please try again.");
+    } finally {
+      isLoading = false;
+      update();
+    }
+
+    // messageUseCase.invoke(
+    //   params,
+    //   file,
+    //   Get.find<AppHolder>().email,
+    //   messageController.text.toString(),
+    //   subjectController.text,
+    // )
+    //     .listen((event) {
+    //   event.when(loading: () {
+    //     isLoading = true;
+    //     update();
+    //   }, content: (response) async {
+    //     if (response?.status == "success") {
+    //       customSnackBar(response?.data?['message'].toString());
+    //       log('response==========>>>>>$response');
+    //       messageController.text = '';
+    //       subjectController.text = '';
+    //       emailController.text = '';
+    //       file = null;
+    //     } else {
+    //       customSnackBar(response?.message.toString());
+    //     }
+    //     update();
+    //   }, error: (error) {
+    //     customSnackBar("please try again".toString());
+    //   });
+    // })
+    //   ..onDone(() async {
+    //     messageController.text = '';
+    //     subjectController.text = '';
+    //     emailController.text = '';
+    //     file = null;
+    //     isLoading = false;
+    //     update();
+    //   })
+    //   ..addTo(subscribe);
   }
 
   void sendComplainForm() async{
@@ -332,7 +366,7 @@ class SupportController extends BaseController {
 
     AnalyticsService.instance.onContactFormSubmission();
     log('file==========>>>>>$file');
-    log('requestFile==========>>>>>$request');
+    log('complain request==========>>>>>$request');
 
 
     try {
@@ -407,7 +441,7 @@ class SupportController extends BaseController {
 
     AnalyticsService.instance.onContactFormSubmission();
     log('file==========>>>>>$file');
-    log('requestFile==========>>>>>$request');
+    log('flat visit form request==========>>>>>$request');
 
 
     try {
@@ -469,7 +503,7 @@ class SupportController extends BaseController {
 
     AnalyticsService.instance.onContactFormSubmission();
     log('file==========>>>>>$file');
-    log('requestFile==========>>>>>$request');
+    log('send name change form request==========>>>>>$request');
 
 
     try {
@@ -544,7 +578,7 @@ class SupportController extends BaseController {
     };
 
     AnalyticsService.instance.onContactFormSubmission();
-    log('requestFile==========>>>>>$request');
+    log('send otp request==========>>>>>$request');
 
 
     try {
@@ -613,7 +647,7 @@ class SupportController extends BaseController {
     };
 
     AnalyticsService.instance.onContactFormSubmission();
-    log('requestFile==========>>>>>$request');
+    log('verify otp request==========>>>>>$request');
 
 
     try {
@@ -694,7 +728,7 @@ class SupportController extends BaseController {
     };
 
     AnalyticsService.instance.onContactFormSubmission();
-    log('requestFile==========>>>>>$request');
+    log('post otp verification request==========>>>>>$request');
 
 
     try {
