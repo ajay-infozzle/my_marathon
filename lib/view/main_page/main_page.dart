@@ -110,7 +110,7 @@ class _MainPageState extends State<MainPage> {
                                   width: 1.5))),
                       child: Padding(
                         padding: EdgeInsets.symmetric(
-                            horizontal: Get.width * 0.04,
+                            horizontal: Get.width * 0.05,
                             vertical: Platform.isAndroid
                                 ? Get.height * 0.01
                                 : Get.height * 0.015),
