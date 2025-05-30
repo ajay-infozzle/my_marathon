@@ -744,6 +744,7 @@ class SupportController extends BaseController {
         if(response.data?['status'] == "success"){
           customSnackBar(isEmail ? (response.data?['data']['message'] ?? "Email Changed Successfuly") : (response.data?['data']['message'] ?? "Mobile Number Changed Successfuly") ) ;
         }
+        
 
         if(response.data?['status'] == "error"){
           customSnackBar(response.data?['message'] ?? "Something went wrong !") ;
