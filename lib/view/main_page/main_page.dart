@@ -113,7 +113,7 @@ class _MainPageState extends State<MainPage> {
                             horizontal: Get.width * 0.05,
                             vertical: Platform.isAndroid
                                 ? Get.height * 0.01
-                                : Get.height * 0.015),
+                                : Get.height * 0.02),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: List.generate(
