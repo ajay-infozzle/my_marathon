@@ -449,12 +449,12 @@ class ApartmentController extends BaseController {
             /*Platform.isIOS ? "/storage/emulated/0/Download/" :*/ appStorage
                 .path;
         messageData = response;
-        String htmlContent = response?.data?["html"];
+        String? htmlContent = response?.data?["html"];
         var targetFileName = "statement_marathon.pdf";
         log('htmlContent==========>>>>>$htmlContent');
         log('targetPath==========>>>>>$targetPath');
         final generatedPdfFile = await HtmlToPdf.convertFromHtmlContent(
-            htmlContent: htmlContent,
+            htmlContent: htmlContent ?? "",
             configuration: PdfConfiguration(
               targetDirectory: targetPath,
               targetName: targetFileName,

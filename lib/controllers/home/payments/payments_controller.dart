@@ -124,10 +124,10 @@ class PaymentsController extends BaseController {
         //var targetPath = Platform.isIOS ? "/storage/emulated/0/Download/" : appStorage.path;
         log('targetPath==========>>>>>${appStorage.path}', name: "statement_pdf on payments_controller");
         messageData = response;
-        String htmlContent = response?.data?["html"];
+        String? htmlContent = response?.data?["html"];
         var targetFileName = "statement_marathon.pdf";
         final generatedPdfFile = await HtmlToPdf.convertFromHtmlContent(
-            htmlContent: htmlContent,
+            htmlContent: htmlContent ?? "",
             configuration: PdfConfiguration(
               targetDirectory: appStorage.path,
               targetName: targetFileName,

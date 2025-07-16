@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:io';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -10,7 +11,9 @@ import 'package:hive_flutter/adapters.dart';
 import 'package:marathon/data/services/analytics_service.dart';
 import 'package:marathon/data/tools/decoration/res_colors.dart';
 import 'package:marathon/data/tools/toast/custom_snackbar.dart';
+import 'package:marathon/root_blocked_screen.dart';
 import 'package:marathon/view/splash/splash_page.dart';
+import 'package:root_checker_plus/root_checker_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'config/injection.dart';
 import 'data/services/notification_service.dart';
@@ -18,6 +21,8 @@ import 'data/storage/app/app_prefs.dart';
 import 'firebase_options.dart';
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+bool blockRootedDevice = false;
+BlockReason blockReason = BlockReason.other;
 
 // Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 //   await Firebase.initializeApp();
@@ -51,6 +56,8 @@ void main() async {
   } catch (e) {
     debugPrint("Failed to initialize Firebase: $e");
   }
+
+  // await checkSecurity(); 
   await FirebaseMessaging.instance.setAutoInitEnabled(true);
   await DIService.init();
   await Hive.initFlutter();
@@ -121,10 +128,36 @@ void main() async {
     },
   );
 
+
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
-  ]).then((value) => runApp(MyApp()));
+  ]).then((value) {
+    runApp(blockRootedDevice ? MaterialApp(debugShowCheckedModeBanner: false,home: RootBlockedScreen(reason: blockReason,),) : MyApp());
+  });
+}
+
+Future<void> checkSecurity() async {
+  if (Platform.isAndroid) {
+    final isRooted = await RootCheckerPlus.isRootChecker() ?? false;
+    final isDevMode = await RootCheckerPlus.isDeveloperMode() ?? false;
+    if (isRooted ) {
+      log('⚠️ Rooted Android device detected!');
+      blockReason = BlockReason.rooted;
+      blockRootedDevice = true;
+    } else if (isDevMode) {
+      blockRootedDevice = true;
+      blockReason = BlockReason.developerMode;
+    }
+  } else if (Platform.isIOS) {
+    final isJailbroken = await RootCheckerPlus.isJailbreak() ?? false;
+    final isRooted = await RootCheckerPlus.isRootChecker() ?? false;
+    if (isJailbroken || isRooted) {
+      log('⚠️ Jailbroken iOS device detected!');
+      blockRootedDevice = true;
+      blockReason = BlockReason.rooted;
+    }
+  }
 }
 
 class MyApp extends StatelessWidget {

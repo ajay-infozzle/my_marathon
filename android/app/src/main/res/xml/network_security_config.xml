@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+  <domain-config>
+    <domain includeSubdomains="true">crm.marathon.in</domain>
+    <pin-set expiration="2025-09-18">
+      <pin digest="SHA-256">n9HEbK9iwT0PCVpGoE9kgX5vsAxMf9NsjE48RkMntZI=</pin>
+    </pin-set>
+  </domain-config>
+
+  <domain-config>
+    <domain includeSubdomains="true">marathon.in</domain>
+    <pin-set expiration="2025-09-05">
+      <pin digest="SHA-256">+BODrCjoxjkKvm/qORSXEUbkmXiCgLbI6B7rfBE68V0=</pin>
+    </pin-set>
+  </domain-config>
+
+  <!-- Allow unpinned external domains -->
+  <domain-config cleartextTrafficPermitted="true">
+    <domain includeSubdomains="true">hooks.zapier.com</domain>
+  </domain-config>
+
+  <domain-config cleartextTrafficPermitted="true">
+    <domain includeSubdomains="true">wa.me</domain>
+  </domain-config>
+</network-security-config>
