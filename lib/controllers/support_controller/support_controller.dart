@@ -238,13 +238,15 @@ class SupportController extends BaseController {
             "email": email,
             "cust_id": Get.find<AppHolder>().custId,
             "apartment_id": Get.find<MainController>().apartmentId,
-            "document_file": file
+            // "document_file": file
+            "document_file": file == null ? "" : await MultipartFile.fromFile(file!.path, filename: 'general_form')
           }
         : {
             "message": messageController.text,
             "subject": subjectController.text,
             "email": email,
-            "document_file": file
+            // "document_file": file
+            "document_file": file == null ? "" : await MultipartFile.fromFile(file!.path, filename: 'general_form')
           };
 
     Map<String, dynamic> params = {

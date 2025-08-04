@@ -154,6 +154,41 @@ class PaymentsController extends BaseController {
       ..addTo(subscribe);
   }
 
+  void sendEmailStatement() {
+    Map<String, dynamic> request = {
+      "cust_id": Get.find<AppHolder>().custId,
+      "apartment_id": Get.find<MainController>().apartmentId,
+    };
+    Map<String, dynamic> params = {
+      "apikey": Api.apiKey,
+      "action": "email_statement_pdf"
+    };
+    Get.log(request.toString());
+    messageUseCase.invoke(params, request).listen((event) {
+      event.when(loading: () {
+        isLoading = true;
+        loadingText = "Statement sending...";
+        update();
+      }, content: (response) async {
+        messageData = response;
+        if (messageData?.message != null) {
+          customSnackBar('${messageData?.message}');
+        } else {
+          customSnackBar("Try again");
+        }
+        update();
+      }, error: (error) {
+        customSnackBar(error.toString());
+      });
+    })
+      ..onDone(() async {
+        isLoading = false;
+        loadingText = "";
+        update();
+      })
+      ..addTo(subscribe);
+  }
+
   void getReceipt(String rId, String milestoneId) {
     Map<String, dynamic> request = {
       "cust_id": Get.find<AppHolder>().custId,

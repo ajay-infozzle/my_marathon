@@ -290,7 +290,7 @@ class AuthController extends BaseController {
             "new_password": passwordController.text
           }
         : {
-            "email": countryCode + numberController.text,
+            "email": emailController.text,
             "otp": otp,
             "new_password": passwordController.text
           };
@@ -345,7 +345,7 @@ class AuthController extends BaseController {
     // String code = countryCode.split('+').last;
     Map<String, dynamic> request = isNumber
         ? {"mobile": countryCode + numberController.text, "otp": otp, "fcm": token,}
-        : {"email": countryCode + numberController.text, "otp": otp, "fcm": token,};
+        : {"email": emailController.text, "otp": otp, "fcm": token,};
     Map<String, dynamic> params = {
       "apikey": Api.apiKey,
       "action": "login_otp_post"

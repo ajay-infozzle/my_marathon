@@ -57,7 +57,7 @@ void main() async {
     debugPrint("Failed to initialize Firebase: $e");
   }
 
-  await checkSecurity(); 
+  // await checkSecurity(); 
   await FirebaseMessaging.instance.setAutoInitEnabled(true);
   await DIService.init();
   await Hive.initFlutter();
