@@ -166,37 +166,68 @@ class PaymentsPage extends StatelessWidget {
                                   color: ColorRes.mainTextColor),
                             ),
                           ),
+
                           10.ph,
                           Padding(
                             padding:
                                 EdgeInsets.symmetric(horizontal: Dimens.padding),
-                            child: CustomGeneralButton(
-                              onTab: () {
-                                controller.getDocuments();
-                              },
-                              title: "Download Statement",
-                              // fontSize: 14,
-                              // horizontalPadding: 30,
-                              //fontSize: MediaQuery.of(context).size.width * 0.033,
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: CustomGeneralButton(
+                                    onTab: () {
+                                      controller.getDocuments();
+                                    },
+                                    title: "Download",
+                                  ),
+                                ),
+                                10.pw,
+                                Expanded(
+                                  child: CustomGeneralButton(
+                                    onTab: () {
+                                      controller.sendEmailStatement();
+                                    },
+                                    title: "Get on email",
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                           10.ph,
+
+                          // 10.ph,
+                          // Padding(
+                          //   padding:
+                          //       EdgeInsets.symmetric(horizontal: Dimens.padding),
+                          //   child: CustomGeneralButton(
+                          //     onTab: () {
+                          //       controller.getDocuments();
+                          //     },
+                          //     title: "Download",
+                          //     width: MediaQuery.of(context).size.width * 0.4,
+                          //     // fontSize: 14,
+                          //     // horizontalPadding: 30,
+                          //     //fontSize: MediaQuery.of(context).size.width * 0.033,
+                          //   ),
+                          // ),
+                          // 10.ph,
             
-                          10.ph,
-                          Padding(
-                            padding:
-                                EdgeInsets.symmetric(horizontal: Dimens.padding),
-                            child: CustomGeneralButton(
-                              onTab: () {
-                                controller.sendEmailStatement();
-                              },
-                              title: "Email Statement",
-                              // fontSize: 14,
-                              // horizontalPadding: 30,
-                              //fontSize: MediaQuery.of(context).size.width * 0.033,
-                            ),
-                          ),
-                          10.ph,
+                          // 10.ph,
+                          // Padding(
+                          //   padding:
+                          //       EdgeInsets.symmetric(horizontal: Dimens.padding),
+                          //   child: CustomGeneralButton(
+                          //     onTab: () {
+                          //       controller.sendEmailStatement();
+                          //     },
+                          //     title: "Get on email",
+                          //     width: MediaQuery.of(context).size.width * 0.4,
+                          //     // fontSize: 14,
+                          //     // horizontalPadding: 30,
+                          //     //fontSize: MediaQuery.of(context).size.width * 0.033,
+                          //   ),
+                          // ),
+                          // 10.ph,
             
                           Container(
                             margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
