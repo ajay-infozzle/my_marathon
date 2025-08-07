@@ -151,8 +151,9 @@ Future<void> checkSecurity() async {
     }
   } else if (Platform.isIOS) {
     final isJailbroken = await RootCheckerPlus.isJailbreak() ?? false;
-    final isRooted = await RootCheckerPlus.isRootChecker() ?? false;
-    if (isJailbroken || isRooted) {
+    // final isRooted = await RootCheckerPlus.isRootChecker() ?? false;
+    // if (isJailbroken || isRooted) {
+    if (isJailbroken) {
       log('⚠️ Jailbroken iOS device detected!');
       blockRootedDevice = true;
       blockReason = BlockReason.rooted;
