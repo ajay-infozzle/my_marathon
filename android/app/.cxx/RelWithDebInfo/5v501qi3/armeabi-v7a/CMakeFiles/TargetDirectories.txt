@@ -1,0 +1,2 @@
+C:/Users/Dell/FlutterProject/marathon/android/app/.cxx/RelWithDebInfo/5v501qi3/armeabi-v7a/CMakeFiles/edit_cache.dir
+C:/Users/Dell/FlutterProject/marathon/android/app/.cxx/RelWithDebInfo/5v501qi3/armeabi-v7a/CMakeFiles/rebuild_cache.dir

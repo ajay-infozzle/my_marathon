@@ -1,5 +1,7 @@
+import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
+import 'package:app_links/app_links.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -161,11 +163,48 @@ Future<void> checkSecurity() async {
   }
 }
 
-class MyApp extends StatelessWidget {
-  MyApp({super.key});
+class MyApp extends StatefulWidget {
+  const MyApp({super.key});
 
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
   final _analytics = FirebaseAnalytics.instance;
-  
+  late final AppLinks _appLinks;
+
+  @override
+  void initState() {
+    super.initState();
+    _initDeepLinks();
+  }
+
+  Future<void> _initDeepLinks() async {
+    _appLinks = AppLinks();
+
+    // Handle link when app is opened from a deep link (terminated state)
+    final uri = await _appLinks.getInitialLink();
+    _handleUri(uri);
+
+    // Handle link when app is already running (background / foreground)
+    _appLinks.uriLinkStream.listen((uri) {
+      _handleUri(uri);
+    });
+  }
+
+  void _handleUri(Uri? uri) {
+    if (uri == null) return;
+
+    log('🔗 Deep link opened: $uri');
+
+    if (uri.path.contains('/apartments')) {
+      
+    } else if (uri.path.contains('/receipt')) {
+      
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return MediaQuery(
