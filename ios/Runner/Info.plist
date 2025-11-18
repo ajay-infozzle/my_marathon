@@ -68,5 +68,7 @@
 	<array>
 	<string>NSUserActivityTypeBrowsingWeb</string>
 	</array>
+	<Key>FlutterDeepLinkingEnabled</Key>
+	<false/>
 </dict>
 </plist>
