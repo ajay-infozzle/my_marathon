@@ -25,13 +25,13 @@ if (keystorePropertiesFile.exists()) {
 
 android {
     namespace = "com.crm.marathonportal"
-    compileSdk = 35
+    compileSdk = 36
     ndkVersion = "27.0.12077973"
 
     defaultConfig {
         applicationId = "com.crm.marathonportal"
         minSdk = 29
-        targetSdk = 35
+        targetSdk = 36
         versionCode = flutterVersionCode
         versionName = flutterVersionName
         multiDexEnabled = true
