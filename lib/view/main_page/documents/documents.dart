@@ -4,7 +4,7 @@ import 'package:marathon/controllers/document/document_controller.dart';
 import 'package:marathon/data/tools/extensions/num_ext.dart';
 import 'package:marathon/view/main_page/documents/widgets/document_tile.dart';
 import 'package:marathon/view/widgets/custom_general_button.dart';
-import 'package:url_launcher/url_launcher.dart';
+// import 'package:url_launcher/url_launcher.dart';
 import '../../../data/tools/decoration/dimens.dart';
 import '../../../data/tools/decoration/res_colors.dart';
 import '../../../data/tools/decoration/style_res.dart';
@@ -346,19 +346,24 @@ class GeneralData extends StatelessWidget {
                 return DocumentTileWidget(
                     onTap: () async {
                       try {
-                        Uri url = isGeneral
-                            ? Uri.parse(documents![index].downloadLink ?? "")
-                            : Uri.parse(DocumentsReceipts.fromJson(
-                                        receipt?[title?[index]])
-                                    .downloadLink ??
-                                "");
-                        if (await canLaunchUrl(url)) {
-                          launchUrl(url);
-                        } else {
-                          customSnackBar('Download link not available');
-                        }
+                        // Uri url = isGeneral
+                        //     ? Uri.parse(documents![index].downloadLink ?? "")
+                        //     : Uri.parse(DocumentsReceipts.fromJson(
+                        //                 receipt?[title?[index]])
+                        //             .downloadLink ??
+                        //         "");
+                        // if (await canLaunchUrl(url)) {
+                        //   launchUrl(url);
+                        // } else {
+                        //   customSnackBar('Download link not available');
+                        // }
+                        controller.getRecieptDoc(
+                          milestoneId:  DocumentsReceipts.fromJson(receipt?[title?[index]]).milestoneId ?? "", 
+                          rId: receipt?[title?[index]]["receipt_id"] ?? "" 
+                        );
                       } catch (e) {
-                        customSnackBar('You cant download this file');
+                        customSnackBar('Something went wrong');
+                        // customSnackBar('You cant download this file');
                       }
                     },
                     title: isGeneral

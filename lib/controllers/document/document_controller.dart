@@ -236,4 +236,58 @@ class DocumentController extends BaseController {
       })
       ..addTo(subscribe);
   }
+
+  void getRecieptDoc({required String rId, required String milestoneId}) {
+    Map<String, dynamic> request = {
+      "cust_id": Get.find<AppHolder>().custId,
+      "apartment_id": Get.find<MainController>().apartmentId,
+      "receipt_id": rId,
+      "milestone_id": milestoneId
+    };
+    Map<String, dynamic> params = {
+      "apikey": Api.apiKey,
+      "action": "receipt_pdf"
+    };
+    Get.log(request.toString());
+    messageUseCase.invoke(params, request).listen((event) {
+      event.when(loading: () {
+        isLoading = true;
+        loadingText = "Request received\nThe receipt may take upto 1 minute to download";
+        update();
+      }, content: (response) async {
+        final appStorage = await getApplicationDocumentsDirectory();
+        // var targetPath = Platform.isIOS ? "/storage/emulated/0/Download/" : appStorage.path;
+        log('targetPath==========>>>>>${appStorage.path}');
+        log('response==========>>>>>$response');
+        messageData = response;
+        String htmlContent = response?.data?["html"];
+        var targetFileName = "reciept${rId}_marathon.pdf";
+        final generatedPdfFile = await HtmlToPdf.convertFromHtmlContent(
+            htmlContent: htmlContent,
+            configuration: PdfConfiguration(
+              targetDirectory: appStorage.path,
+              targetName: targetFileName,
+              printSize: PrintSize.A4,
+              printOrientation: PrintOrientation.Landscape,
+            ));
+
+        Get.log("${generatedPdfFile}reciept file");
+        if (generatedPdfFile.existsSync()) {
+          customSnackBar('File downloaded');
+          OpenFile.open(generatedPdfFile.path);
+        } else {
+          customSnackBar("Try again");
+        }
+        update();
+      }, error: (error) {
+        customSnackBar(error.toString());
+      });
+    })
+      ..onDone(() async {
+        isLoading = false;
+        loadingText = "";
+        update();
+      })
+      ..addTo(subscribe);
+  }
 }
