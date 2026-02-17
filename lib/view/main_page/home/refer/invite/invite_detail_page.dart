@@ -35,6 +35,7 @@ class _InviteDetailPageState extends State<InviteDetailPage> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
+      top:false,
       child: Scaffold(
         floatingActionButton: commonFloatingActionButton(),
         appBar: AppBar(

@@ -272,7 +272,7 @@ class SupportPage extends StatelessWidget {
         });
   }
 
-  servicesDropdownSection(BuildContext context, SupportController controller){
+  Widget servicesDropdownSection(BuildContext context, SupportController controller){
     return Container(
       margin: const EdgeInsets.all(15),
       alignment: Alignment.center,
@@ -337,7 +337,7 @@ class SupportPage extends StatelessWidget {
     );
   }
   
-  generalServiceForm(BuildContext context, SupportController controller, {bool showBottomLine = true}) {
+  Widget generalServiceForm(BuildContext context, SupportController controller, {bool showBottomLine = true}) {
     return Container(
       decoration: BoxDecoration(
         border: Border(
@@ -493,7 +493,7 @@ class SupportPage extends StatelessWidget {
     );
   }
   
-  complaintForm(BuildContext context, SupportController controller, {bool showBottomLine = true}) {
+  Widget complaintForm(BuildContext context, SupportController controller, {bool showBottomLine = true}) {
     return Container(
       decoration: BoxDecoration(
         border: Border(
@@ -647,7 +647,7 @@ class SupportPage extends StatelessWidget {
     );
   }
 
-  flatVisitServiceForm(BuildContext context, SupportController controller, {bool showBottomLine = true}) {
+  Widget flatVisitServiceForm(BuildContext context, SupportController controller, {bool showBottomLine = true}) {
     return Container(
       decoration: BoxDecoration(
         border: Border(
@@ -849,7 +849,7 @@ class SupportPage extends StatelessWidget {
     );
   }
   
-  nameChangeServiceForm(BuildContext context, SupportController controller, {bool showBottomLine = true}) {
+  Widget nameChangeServiceForm(BuildContext context, SupportController controller, {bool showBottomLine = true}) {
     return Container(
       decoration: BoxDecoration(
         border: Border(
@@ -995,7 +995,7 @@ class SupportPage extends StatelessWidget {
     );
   }
 
-  emailChangeServiceForm(BuildContext context, SupportController controller, {required bool showBottomLine}) {
+  Widget emailChangeServiceForm(BuildContext context, SupportController controller, {required bool showBottomLine}) {
     return Container(
       decoration: BoxDecoration(
         border: Border(
@@ -1073,7 +1073,7 @@ class SupportPage extends StatelessWidget {
     );
   }
   
-  mobileChangeServiceForm(BuildContext context, SupportController controller, {required bool showBottomLine}) {
+  Widget mobileChangeServiceForm(BuildContext context, SupportController controller, {required bool showBottomLine}) {
     return Container(
       decoration: BoxDecoration(
         border: Border(
@@ -1170,7 +1170,7 @@ class SupportPage extends StatelessWidget {
     );
   }
 
-  otpForm(BuildContext context, SupportController controller, {required bool showBottomLine}) {
+  Widget otpForm(BuildContext context, SupportController controller, {required bool showBottomLine}) {
     return Container(
       decoration: BoxDecoration(
         border: Border(
@@ -1277,7 +1277,7 @@ class SupportPage extends StatelessWidget {
     );
   }
   
-  rmContainer() {
+  Widget rmContainer() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

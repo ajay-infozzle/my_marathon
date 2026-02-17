@@ -62,13 +62,13 @@
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
-		<true/>
+		<false/>
 	</dict>
 	<key>NSUserActivityTypes</key>
 	<array>
 	<string>NSUserActivityTypeBrowsingWeb</string>
 	</array>
-	<Key>FlutterDeepLinkingEnabled</Key>
+	<key>FlutterDeepLinkingEnabled</key>
 	<false/>
 </dict>
 </plist>

@@ -23,6 +23,7 @@ class Api {
 
 
   static const getRmDetailApi ='$baseUrl/api/getinfoformobileapp?apikey=$apiKey&action=getrminfo';
+  static const getDetailForVedioApi = '$baseUrl/api/getinfoformobileapp?apikey=$apiKey&action=constra_ids';
 
   static const nameDeletionFormDownloadUrl ='https://crm.marathon.in/pdf/New_Name_Deletion_Letter.docx';
   static const nameAdditionFormDownloadUrl ='https://crm.marathon.in/pdf/New_Revised_Name_Addition_Letter.docx';

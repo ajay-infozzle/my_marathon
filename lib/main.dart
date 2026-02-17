@@ -147,10 +147,11 @@ Future<void> checkSecurity() async {
       log('⚠️ Rooted Android device detected!');
       blockReason = BlockReason.rooted;
       blockRootedDevice = true;
-    } else if (isDevMode) {
-      blockRootedDevice = true;
-      blockReason = BlockReason.developerMode;
-    }
+    } 
+    // else if (isDevMode) {
+    //   blockRootedDevice = true;
+    //   blockReason = BlockReason.developerMode;
+    // }
   } else if (Platform.isIOS) {
     final isJailbroken = await RootCheckerPlus.isJailbreak() ?? false;
     // final isRooted = await RootCheckerPlus.isRootChecker() ?? false;

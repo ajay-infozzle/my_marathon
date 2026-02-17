@@ -15,11 +15,11 @@
   </domain-config>
 
   <!-- Allow unpinned external domains -->
-  <domain-config cleartextTrafficPermitted="true">
+  <domain-config cleartextTrafficPermitted="false">
     <domain includeSubdomains="true">hooks.zapier.com</domain>
   </domain-config>
 
-  <domain-config cleartextTrafficPermitted="true">
+  <domain-config cleartextTrafficPermitted="false">
     <domain includeSubdomains="true">wa.me</domain>
   </domain-config>
 </network-security-config>

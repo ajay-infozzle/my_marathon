@@ -6,6 +6,7 @@ import 'package:marathon/controllers/home/apartment_details_controller/apartment
 import 'package:marathon/data/storage/app/app_holder.dart';
 import 'package:marathon/data/tools/extensions/num_ext.dart';
 import 'package:marathon/data/tools/toast/custom_snackbar.dart';
+import 'package:marathon/view/main_page/home/widgets/project_video.dart';
 import 'package:marathon/view/widgets/custom_general_button.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../../data/tools/decoration/dimens.dart';
@@ -71,8 +72,7 @@ class _ApartmentDetailsState extends State<ApartmentDetails> {
     log('MediaQuery.of(context).size.height==========>>>>>${MediaQuery.of(context).size.width}');
     // final w = MediaQuery.of(context).size.width;
     return GetBuilder<ApartmentController>(
-        init:
-            ApartmentController(Get.find(), Get.find(), Get.find(), Get.find()),
+        init: ApartmentController(Get.find(), Get.find(), Get.find(), Get.find()),
         builder: (controller) {
           return Scaffold(
             body: controller.isLoading
@@ -816,8 +816,35 @@ class _ApartmentDetailsState extends State<ApartmentDetails> {
                             )
                           ],
                         ),
-                        SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.04),
+
+                        //---- webview video ----
+                        if(controller.apartmentDetailsResponse?.data?.apartmentDetails?.first.flatNo != null || controller.apartmentDetailsResponse?.data?.apartmentDetails?.first.flatNo != '')
+                        ...[
+                          SizedBox(height: MediaQuery.of(context).size.height * 0.03),
+                          ProjectVideoSection(
+                            email: Get.find<AppHolder>().email,
+                            project: controller
+                                    .apartmentDetailsResponse
+                                    ?.data
+                                    ?.apartmentDetails
+                                    ?.first
+                                    .projectAddress
+                                    ?.split(",")
+                                    .first ?? "",
+                            tower: controller
+                                  .apartmentDetailsResponse
+                                  ?.data
+                                  ?.apartmentDetails
+                                  ?.first
+                                  .subProjectname
+                                  ?.split(",")
+                                  .first ?? "",
+                            unit: controller.apartmentDetailsResponse?.data?.apartmentDetails?.first.flatNo ?? '',
+                          ),
+                        ],
+                        //---- webview video ----
+
+                        SizedBox(height: MediaQuery.of(context).size.height * 0.03),
                         Padding(
                           padding:
                               EdgeInsets.symmetric(horizontal: Dimens.padding),

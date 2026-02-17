@@ -30,6 +30,7 @@ class _InvitePageState extends State<InvitePage> {
         init: ReferController(Get.find(), Get.find()),
         builder: (controller) {
           return SafeArea(
+            top: false,
             child: Scaffold(
               key: controller.mainController.scaffoldKey,
               resizeToAvoidBottomInset: false,
@@ -274,23 +275,14 @@ class _InvitePageState extends State<InvitePage> {
                     Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Center(
-                            child: Padding(
-                          padding: EdgeInsets.symmetric(
-                              vertical:
-                                  MediaQuery.of(context).size.height * 0.25),
-                          child: const Text("No Contacts in the Phone"),
-                        )),
+                        Center(child: const Text("No Contacts in the Phone")),
                       ],
                     ),
                   controller.isSearch && controller.searchContact.isEmpty
-                      ? Center(
-                          child: Padding(
-                          padding: EdgeInsets.symmetric(
-                              vertical:
-                                  MediaQuery.of(context).size.height * 0.26),
-                          child: const Text("No Contact Found"),
-                        ))
+                      ? Expanded(
+                        child: Center(
+                            child: const Text("No Contact Found")),
+                      )
                       : Expanded(
                           child: ListView.builder(
                               itemCount: controller.isSearch

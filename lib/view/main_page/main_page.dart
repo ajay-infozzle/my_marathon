@@ -51,6 +51,7 @@ class _MainPageState extends State<MainPage> {
         init: MainController(),
         builder: (controller) {
           return SafeArea(
+            top: false,
             child: Scaffold(
               floatingActionButton: commonFloatingActionButton(),
               key: controller.scaffoldKey,
