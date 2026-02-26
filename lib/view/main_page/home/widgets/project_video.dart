@@ -29,6 +29,7 @@ class ProjectVideoSection extends StatefulWidget {
 }
 
 class _ProjectVideoSectionState extends State<ProjectVideoSection> {
+  bool isLoading = false;
   bool showVideo = false;
   bool isVideoLoaded = false;
   bool showVideoButton = false;
@@ -42,7 +43,27 @@ class _ProjectVideoSectionState extends State<ProjectVideoSection> {
     super.initState();
 
     controller = WebViewController()
-      ..setJavaScriptMode(JavaScriptMode.unrestricted);
+      ..setJavaScriptMode(JavaScriptMode.unrestricted)
+      ..setNavigationDelegate(
+      NavigationDelegate(
+        onPageStarted: (url) {
+          setState(() {
+            isLoading = true;
+          });
+        },
+        onPageFinished: (url) {
+          setState(() {
+            isLoading = false;
+            isVideoLoaded = true;
+          });
+        },
+        onWebResourceError: (error) {
+          setState(() {
+            isLoading = false;
+          });
+        },
+      ),
+    );
 
     _initApi();
   }
@@ -156,7 +177,7 @@ class _ProjectVideoSectionState extends State<ProjectVideoSection> {
 
     setState(() {
       showVideo = true;
-      isVideoLoaded = true;
+      // isVideoLoaded = true;
     });
   }
 
@@ -212,24 +233,6 @@ class _ProjectVideoSectionState extends State<ProjectVideoSection> {
           ),
           ),
 
-        // if (showVideoButton)
-        //   Padding(
-        //     padding:
-        //         const EdgeInsets.symmetric(horizontal: 16),
-        //     child: InkWell(
-        //       onTap: _playVideo,
-        //       child: const Text(
-        //         'View Your Apartment',
-        //         style: TextStyle(
-        //           fontSize: 16,
-        //           fontWeight: FontWeight.w600,
-        //           decoration: TextDecoration.underline,
-        //           color: Colors.blue,
-        //         ),
-        //       ),
-        //     ),
-        //   ),
-
         if (showVideo)
           const SizedBox(height: 12),
 
@@ -238,7 +241,15 @@ class _ProjectVideoSectionState extends State<ProjectVideoSection> {
             height: 400,
             width: double.maxFinite,
             color: Colors.grey.shade200,
-            child: WebViewWidget(controller: controller),
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                WebViewWidget(controller: controller),
+
+                if (isLoading)
+                  const CircularProgressIndicator(),
+              ],
+            ),
           ),
       ],
     );
