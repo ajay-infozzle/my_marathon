@@ -4,7 +4,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:http/http.dart' as http;
-import 'package:intl/intl.dart';
 import 'package:marathon/data/server/api/api_const.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -74,8 +73,7 @@ class _ProjectVideoSectionState extends State<ProjectVideoSection> {
   Future<void> _initApi() async {
     final box = await Hive.openBox('projectVideoBox');
 
-    final key =
-        "${widget.project}_${widget.tower}_${widget.unit}";
+    final key = "${widget.project}_${widget.tower}_${widget.unit}";
 
     /// 1. Check Cache
     if (box.containsKey(key)) {
@@ -92,6 +90,7 @@ class _ProjectVideoSectionState extends State<ProjectVideoSection> {
         "project": widget.project,
         "tower": widget.tower,
         "unit": widget.unit,
+        "email": widget.email,
       },
     );
 
@@ -107,12 +106,12 @@ class _ProjectVideoSectionState extends State<ProjectVideoSection> {
 
     /// Error Case
     if (data["error"] != null) {
-      // print("--<< ${data["error"]}");
-      // print("--<< ${{
-      //   "project": widget.project,
-      //   "tower": widget.tower,
-      //   "unit": widget.unit,
-      // }}");
+      print("--<< ${data["error"]}");
+      print("--<< ${{
+        "project": widget.project,
+        "tower": widget.tower,
+        "unit": widget.unit,
+      }}");
       showVideoButton = false;
       setState(() {});
       return;
@@ -130,22 +129,22 @@ class _ProjectVideoSectionState extends State<ProjectVideoSection> {
   /// BUILD VIDEO URL
   /// ---------------------------
   String _buildVideoUrl() {
-    final now = DateTime.now();
-    final formattedTimestamp =
-        DateFormat('yyyy-MM-dd HH:mm').format(now);
+    // final now = DateTime.now();
+    // final formattedTimestamp =
+    //     DateFormat('yyyy-MM-dd HH:mm').format(now);
 
     final uri = Uri(
       scheme: 'https',
       host: 'constra.bandhoo.com',
       path: '/customer-video',
       queryParameters: {
-        'email': widget.email,
+        'email': videoData!['email'],
         'projectId': videoData!['projectId'],
         'towerId': videoData!['towerId'],
         'unitId': videoData!['unitId'],
         'clientId': videoData!['clientId'],
         'signature': videoData!['signature'],
-        'timestamp': formattedTimestamp,
+        'timestamp': videoData!['timestamp'],
       },
     );
 

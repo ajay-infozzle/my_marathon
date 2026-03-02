@@ -65,6 +65,16 @@ class _ApartmentDetailsState extends State<ApartmentDetails> {
   }
 
   double sliderValue = 0;
+  
+  bool isPageRefreshed = false ;
+  void refreshPage(){
+    WidgetsBinding.instance.addPostFrameCallback((_){
+      if(isPageRefreshed == false){
+        // print("--<< page refreshed");
+        setState(() {isPageRefreshed = true;});
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -74,6 +84,12 @@ class _ApartmentDetailsState extends State<ApartmentDetails> {
     return GetBuilder<ApartmentController>(
         init: ApartmentController(Get.find(), Get.find(), Get.find(), Get.find()),
         builder: (controller) {
+          
+          if(controller.apartmentDetailsResponse?.data?.apartmentDetails?.first.projectAddress?.split(",").first != null && controller.apartmentDetailsResponse?.data?.apartmentDetails?.first.projectAddress?.split(",").first != '' ){
+            // print("--<< ${controller.apartmentDetailsResponse?.data?.apartmentDetails?.first.projectAddress?.split(",").first}");
+            refreshPage();
+          }
+          
           return Scaffold(
             body: controller.isLoading
                 ? const Center(
@@ -818,7 +834,7 @@ class _ApartmentDetailsState extends State<ApartmentDetails> {
                         ),
 
                         //---- webview video ----
-                        if(controller.apartmentDetailsResponse?.data?.apartmentDetails?.first.flatNo != null || controller.apartmentDetailsResponse?.data?.apartmentDetails?.first.flatNo != '')
+                        if(controller.apartmentDetailsResponse?.data?.apartmentDetails?.first.projectAddress?.split(",").first != null && controller.apartmentDetailsResponse?.data?.apartmentDetails?.first.projectAddress?.split(",").first != '')
                         ...[
                           SizedBox(height: MediaQuery.of(context).size.height * 0.03),
                           ProjectVideoSection(
