@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:marathon/controllers/mainController/main_controller.dart';
 import 'package:marathon/data/storage/app/app_holder.dart';
 import 'package:marathon/data/tools/constants/app_assets.dart';
@@ -145,8 +146,14 @@ class HomeDrawer extends StatelessWidget {
           DrawerTales(
             iconButton: false,
             title: 'Sign Out',
-            onTab: () {
+            onTab: () async{
               Get.find<AppHolder>().clearAuth();
+
+              /* ----clear video cache ---- */
+              // final box = await Hive.openBox('projectVideoBox');
+              // await box.clear();
+              /* ----clear video cache ---- */
+              
               Get.offAll(() => const SplashPage());
             },
           ),

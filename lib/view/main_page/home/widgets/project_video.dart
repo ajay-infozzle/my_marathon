@@ -71,17 +71,17 @@ class _ProjectVideoSectionState extends State<ProjectVideoSection> {
   /// INIT API + HIVE CACHE
   /// ---------------------------
   Future<void> _initApi() async {
-    final box = await Hive.openBox('projectVideoBox');
+    // final box = await Hive.openBox('projectVideoBox');
 
-    final key = "${widget.project}_${widget.tower}_${widget.unit}";
+    // final key = "${widget.project}_${widget.tower}_${widget.unit}";
 
     /// 1. Check Cache
-    if (box.containsKey(key)) {
-      videoData = Map<String, dynamic>.from(box.get(key));
-      showVideoButton = true;
-      setState(() {});
-      return;
-    }
+    // if (box.containsKey(key)) {
+    //   videoData = Map<String, dynamic>.from(box.get(key));
+    //   showVideoButton = true;
+    //   setState(() {});
+    //   return;
+    // }
 
     /// 2. Call POST API
     final response = await http.post(
@@ -118,7 +118,7 @@ class _ProjectVideoSectionState extends State<ProjectVideoSection> {
     }
 
     /// Save in Hive
-    await box.put(key, data);
+    // await box.put(key, data);
 
     videoData = data;
     showVideoButton = true;
